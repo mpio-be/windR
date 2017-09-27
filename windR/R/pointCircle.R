@@ -1,8 +1,7 @@
-# windCircle
 
-
-
-#' windCircle
+#' pointCircle
+#'
+#' This function caclulates the position of points in a circle around a start point. The circle is based on the distance of the second point that is provided. This allows for example to compare the the wind conditions in all directions.
 #'
 #' @param x
 #' @param y
@@ -23,12 +22,7 @@ sapply(c('rgdal', 'RSQLite', 'magrittr', 'graticule', 'rgeos', 'ggplot2', 'raste
 
 PROJ   = '+proj=laea +lat_0=90 +lon_0=-156.653428 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 '
 
-altitude = '10m'
-altitude = '925mb'
-altitude = '850mb'
 
-# load wind data
-w = readRDS(paste0('//ds/raw_data_kemp/AVES/REMOTE_SENSING/ERA_Interim_Reanalysis/WIND/DATA/ERA_Interim_u_v_wind_2012_2014_', altitude, '_10km.RDS'))
 
 # load tracking data
 load('//ds/grpkempenaers/Hannes/sea_ice_flights/DATA/P_Speed.RData')
@@ -50,7 +44,7 @@ Barrow250 = gBuffer(PS, width = 250000, quadsegs = 100)
 
 
 
-windCircle = function(x, y, x2, y2){
+windCircle = function(x, y, x2, y2, datetime_, TbtwPoints){
 
 d = data.table( x = d$x,
                 y = d$y,
@@ -102,14 +96,5 @@ d = data.table( x = d$x,
 
 
 
-# get wind data for a point
-getWind = function(x, y , w, PROJ) {
-
-  wpx = SpatialPixelsDataFrame(w[, .(x,y)], w[, .(u, v)], proj4string = CRS(PROJ))
-  o   = over(SpatialPoints(cbind(x, y), proj4string = CRS(PROJ)), wpx)
-
-  list(o$u[1], o$v[1])
-
-}
 
 
