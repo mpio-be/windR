@@ -1,6 +1,6 @@
 #' get Wind (data)
 #'
-#' This function connects points with the closest wind data in space and time.
+#' This function connects points with the closest wind data in space.
 #'
 #' @param x Longitude of the point
 #' @param y Latitude of the point
@@ -11,8 +11,6 @@
 #' @export
 #'
 #' @examples
-
-
 
 getWind = function(x, y , w, PROJ) {
 
