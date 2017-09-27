@@ -38,6 +38,8 @@
 
 pointCircle = function(x, y, x2, y2, id, point_id, pointN = 36, PROJ){
 
+  require(data.table)
+
   dt = data.table(id = id,
                   point_id = point_id,
                   x = x,
@@ -50,6 +52,9 @@ pointCircle = function(x, y, x2, y2, id, point_id, pointN = 36, PROJ){
   P_dist = sqrt(sum((c(x, y) - c(x2, y2))^2))
 
   # create spatial points
+  require(sp)
+  require(rgeos)
+
   PS = SpatialPointsDataFrame(dt[, .(x,y)], dt[, .(id)], proj4string = CRS(PROJ), match.ID = TRUE)
   PS2 = SpatialPointsDataFrame(dt[, .(x2,y2)], dt[, .(id)], proj4string = CRS(PROJ), match.ID = TRUE )
 
