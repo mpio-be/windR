@@ -78,7 +78,7 @@ pointCircle = function(x, y, x2, y2, id, point_id, pointN = 36, PROJ){
 
   d = rbind(dt, d2)
 
-  return(d)
+  d
 
 }
 
