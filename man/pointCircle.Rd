@@ -4,7 +4,7 @@
 \alias{pointCircle}
 \title{pointCircle}
 \usage{
-pointCircle(x, y, x2, y2, id, point_id, pointN = 36, PROJ)
+pointCircle(x, y, x2, y2, pointN = 36, PROJ)
 }
 \arguments{
 \item{x}{Longitude of point 1}
@@ -15,21 +15,17 @@ pointCircle(x, y, x2, y2, id, point_id, pointN = 36, PROJ)
 
 \item{y2}{Latitude of point 2}
 
-\item{id}{Bird ID}
-
-\item{point_id}{Point ID}
-
 \item{pointN}{The number of points that should be created on the circle}
 
 \item{PROJ}{The projection of the points (should be equal area)}
+
+\item{point_id}{Point ID}
 }
 \description{
 This function caclulates the position of points in a circle around a start point. The circle is based on the distance of the second point that is provided. This allows for example to compare the the wind conditions in all directions.
 }
 \examples{
 
-id       = 'bird1'
-point_id = 1
 x        = 10
 y        = 10
 x2       = 100
@@ -37,11 +33,11 @@ y2       = 600
 pointN   = 36
 PROJ     = '+proj=laea +lat_0=90 +lon_0=-156.653428 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 '
 
-dp = pointCircle(x, y, x2, y2, id, point_id, pointN = 36, PROJ)
+dp = pointCircle(x, y, x2, y2, pointN = 36, PROJ)
 
 # visualization of the example
-PS  = SpatialPointsDataFrame(dp[1, .(x,y)], dp[1, .(id, pointType)], proj4string = CRS(PROJ), match.ID = TRUE)
-PS2 = SpatialPointsDataFrame(dp[, .(x2,y2)], dp[, .(id, pointType)], proj4string = CRS(PROJ), match.ID = TRUE)
+PS  = SpatialPointsDataFrame(dp[1, .(x,y)], dp[1, .(pointType)], proj4string = CRS(PROJ), match.ID = TRUE)
+PS2 = SpatialPointsDataFrame(dp[, .(x2,y2)], dp[, .(pointType)], proj4string = CRS(PROJ), match.ID = TRUE)
 
 plot(PS2[PS2@data$pointType == 'estimated', ], col = 'red')         # estimated points
 plot(PS2[PS2@data$pointType == 'real', ], col = 'blue', add = TRUE) # second point

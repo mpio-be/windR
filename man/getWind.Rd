@@ -19,5 +19,5 @@ getWind(x, y, w, PROJ)
 A list containing the u and v component for the point
 }
 \description{
-This function connects points with the closest wind data in space and time.
+This function connects points with the closest wind data in space.
 }

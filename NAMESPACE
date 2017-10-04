@@ -2,6 +2,7 @@
 
 export(bearing)
 export(closestDatetime)
+export(getTemp)
 export(getWind)
 export(pointCircle)
 export(windSupport)
