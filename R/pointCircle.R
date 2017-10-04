@@ -35,43 +35,38 @@
 
 pointCircle = function(x, y, x2, y2, pointN = 36, PROJ){
 
-  require(data.table)
-  require(plyr)
-
-  dt = data.table(x = x,
-                  y = y,
-                 x2 = x2,
-                 y2 = y2,
-                 pointType = 'real' )
-
-  # distance between the two points
-  P_dist = sqrt(sum((c(x, y) - c(x2, y2))^2))
-
-  # create spatial points
-  require(sp)
-  require(rgeos)
-
-  PS = SpatialPointsDataFrame(dt[, .(x,y)], dt[, .(pointType)], proj4string = CRS(PROJ), match.ID = TRUE)
-  PS2 = SpatialPointsDataFrame(dt[, .(x2,y2)], dt[, .(pointType)], proj4string = CRS(PROJ), match.ID = TRUE )
-
-  # create a circle around the point with the distance of the second point
-  PS_buffer = gBuffer(PS, width = P_dist, quadsegs = 10)
-  PS_line = as(PS_buffer, "SpatialLines")
-
-  # sample points on the circle
-  PS_points = spsample(PS_line, n = pointN, type = 'regular')
-
-  dE = as.data.table(PS_points)
-
-  d2 = data.table(x  = rep(dt$x, nrow(dE)),
-                  y  = rep(dt$y, nrow(dE)),
-                  x2 = dE$x,
-                  y2 = dE$y,
-                  pointType = rep('estimated', nrow(dE)) )
-
-  d = rbind(dt, d2)
-
-  d
+	dt = data.table(x = x,
+									y = y,
+									x2 = x2,
+									y2 = y2,
+									pointType = 'real' )
+	
+	# distance between the two points
+	P_dist = sqrt(sum((c(x, y) - c(x2, y2))^2))
+	
+	# create spatial points
+	
+	PS = SpatialPointsDataFrame(dt[, .(x,y)], dt[, .(pointType)], proj4string = CRS(PROJ), match.ID = TRUE)
+	PS2 = SpatialPointsDataFrame(dt[, .(x2,y2)], dt[, .(pointType)], proj4string = CRS(PROJ), match.ID = TRUE )
+	
+	# create a circle around the point with the distance of the second point
+	PS_buffer = gBuffer(PS, width = P_dist, quadsegs = 10)
+	PS_line = as(PS_buffer, "SpatialLines")
+	
+	# sample points on the circle
+	PS_points = spsample(PS_line, n = pointN, type = 'regular')
+	
+	dE = as.data.table(PS_points)
+	
+	d2 = data.table(x  = rep(dt$x, nrow(dE)),
+									y  = rep(dt$y, nrow(dE)),
+									x2 = dE$x,
+									y2 = dE$y,
+									pointType = rep('estimated', nrow(dE)) )
+	
+	d = rbind(dt, d2)
+	
+	d
 
 }
 
