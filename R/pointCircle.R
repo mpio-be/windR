@@ -3,10 +3,10 @@
 #'
 #' This function caclulates the position of points in a circle around a start point. The circle is based on the distance of the second point that is provided. This allows for example to compare the the wind conditions in all directions.
 #'
-#' @param x Longitude of point 1
-#' @param y Latitude of point 1
-#' @param x2 Longitude of point 2
-#' @param y2 Latitude of point 2
+#' @param lon Longitude of point 1
+#' @param lat Latitude of point 1
+#' @param lon2 Longitude of point 2
+#' @param lat2 Latitude of point 2
 #' @param point_id Point ID
 #' @param pointN The number of points that should be created on the circle
 #' @param PROJ The projection of the points (should be equal area)
@@ -33,21 +33,21 @@
 #' plot(PS2[PS2@data$pointType == 'real', ], col = 'blue', add = TRUE) # second point
 #' plot(PS, add = TRUE)                                                # first point
 
-pointCircle = function(x, y, x2, y2, pointN = 36, PROJ){
+pointCircle = function(lon, lat, lon2, lat2, pointN = 36, PROJ){
 
-	dt = data.table(x = x,
-									y = y,
-									x2 = x2,
-									y2 = y2,
+	dt = data.table(lon = lon,
+									lat = lat,
+									lon2 = lon2,
+									lat2 = lat2,
 									pointType = 'real' )
 	
 	# distance between the two points
-	P_dist = sqrt(sum((c(x, y) - c(x2, y2))^2))
+	P_dist = sqrt(sum((c(lon, lat) - c(lon2, lat2))^2))
 	
 	# create spatial points
 	
-	PS = SpatialPointsDataFrame(dt[, .(x,y)], dt[, .(pointType)], proj4string = CRS(PROJ), match.ID = TRUE)
-	PS2 = SpatialPointsDataFrame(dt[, .(x2,y2)], dt[, .(pointType)], proj4string = CRS(PROJ), match.ID = TRUE )
+	PS = SpatialPointsDataFrame(dt[, .(lon,lat)], dt[, .(pointType)], proj4string = CRS(PROJ), match.ID = TRUE)
+	PS2 = SpatialPointsDataFrame(dt[, .(lon2,lat2)], dt[, .(pointType)], proj4string = CRS(PROJ), match.ID = TRUE )
 	
 	# create a circle around the point with the distance of the second point
 	PS_buffer = gBuffer(PS, width = P_dist, quadsegs = 10)
@@ -58,10 +58,10 @@ pointCircle = function(x, y, x2, y2, pointN = 36, PROJ){
 	
 	dE = as.data.table(PS_points)
 	
-	d2 = data.table(x  = rep(dt$x, nrow(dE)),
-									y  = rep(dt$y, nrow(dE)),
-									x2 = dE$x,
-									y2 = dE$y,
+	d2 = data.table(lon  = rep(dt$lon, nrow(dE)),
+									lat  = rep(dt$lat, nrow(dE)),
+									lon2 = dE$x,
+									lat2 = dE$y,
 									pointType = rep('estimated', nrow(dE)) )
 	
 	d = rbind(dt, d2)
