@@ -52,17 +52,17 @@ pointCircle = function(lon, lat, lon2, lat2, pointN = 36, PROJ){
 
   dE = as.data.frame(PS_points)
 
-  d1 = data.frame(lon = lon,
-                  lat = lat,
-                  lon2 = lon2,
-                  lat2 = lat2,
+  d1 = data.frame(x = lon,
+                  y = lat,
+                  x2 = lon2,
+                  y2 = lat2,
                   pointType = 'real' )
 
 
-  d2 = data.frame(lon  = rep(lon, nrow(dE)),
-                  lat  = rep(lat, nrow(dE)),
-                  lon2 = dE$x,
-                  lat2 = dE$y,
+  d2 = data.frame(x  = rep(lon, nrow(dE)),
+                  y  = rep(lat, nrow(dE)),
+                  x2 = dE$x,
+                  y2 = dE$y,
                   pointType = rep('estimated', nrow(dE)) )
 
   d = rbind(d1, d2)
