@@ -4,22 +4,20 @@
 \alias{pointCircle}
 \title{pointCircle}
 \usage{
-pointCircle(x, y, x2, y2, pointN = 36, PROJ)
+pointCircle(lon, lat, lon2, lat2, pointN = 36, PROJ)
 }
 \arguments{
-\item{x}{Longitude of point 1}
+\item{lon}{Longitude of point 1}
 
-\item{y}{Latitude of point 1}
+\item{lat}{Latitude of point 1}
 
-\item{x2}{Longitude of point 2}
+\item{lon2}{Longitude of point 2}
 
-\item{y2}{Latitude of point 2}
+\item{lat2}{Latitude of point 2}
 
 \item{pointN}{The number of points that should be created on the circle}
 
 \item{PROJ}{The projection of the points (should be equal area)}
-
-\item{point_id}{Point ID}
 }
 \description{
 This function caclulates the position of points in a circle around a start point. The circle is based on the distance of the second point that is provided. This allows for example to compare the the wind conditions in all directions.
