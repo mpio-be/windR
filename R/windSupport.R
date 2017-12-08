@@ -75,13 +75,3 @@ windSupport = function(g_direction, g_speed, w_direction, w_speed, crosswind = F
 
 }
 
-windSupport(g_direction = 0, g_speed = 15, w_direction = 6, w_speed = 5)
-
-
-d = data.table(w_direction = seq(-pi, pi, pi/24),
-               w_speed     = rep(5, 49),
-               g_direction = rep(0, 49),
-               g_speed     = rep(15, 49) )
-
-               d[, Ws := windSupport(g_direction, g_speed, w_direction, w_speed)                  , by = 1:nrow(d)]
-
