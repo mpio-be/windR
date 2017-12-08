@@ -33,41 +33,55 @@
 
 windSupport = function(g_direction, g_speed, w_direction, w_speed, crosswind = FALSE){
 
-  # get wind vectors
-  u = w_speed * sin(w_direction)
-  v = w_speed * cos(w_direction)
+  # return NA if any NA in data
+  if(is.na(g_direction) | is.na(g_speed) | is.na(w_direction) | is.na(w_speed)) {
 
-  # get ground vectors
-  Xg = g_speed * sin(g_direction)
-  Yg = g_speed * cos(g_direction)
+    return(NA)
 
-  # get air direction (true heading) & speed
-  Xa = Xg - u
-  Ya = Yg - v
+  }else{
 
-  a_direction = atan2(Xa, Ya)
-  a_speed     = sqrt(Xa^2 + Ya^2)
+    # get wind vectors
+    u = w_speed * sin(w_direction)
+    v = w_speed * cos(w_direction)
 
-  # windsupport and crosswind
-  angle_g_w                        = w_direction - g_direction # get angle btw w and g
-  if(angle_g_w < 0)   angle_g_w    = angle_g_w + pi*2          # normalize from 0 to 2*pi
-  if(angle_g_w > pi)  angle_g_w    = 2 * pi - angle_g_w        # ignore site from which the wind comes (left or right)
+    # get ground vectors
+    Xg = g_speed * sin(g_direction)
+    Yg = g_speed * cos(g_direction)
 
-  if(angle_g_w < pi/2) angle_w_Wc  = pi/2 - angle_g_w          # tailwind
-  if(angle_g_w >= pi/2) angle_w_Wc = pi/2 - (pi - angle_g_w)   # headwind
+    # get air direction (true heading) & speed
+    Xa = Xg - u
+    Ya = Yg - v
 
-  Ws = w_speed * sin(angle_w_Wc)                               # wind support
-  if(angle_g_w > pi/2) Ws = Ws * -1                            # correct for headwind
+    a_direction = atan2(Xa, Ya)
+    a_speed     = sqrt(Xa^2 + Ya^2)
 
-  Wc = w_speed * cos(angle_w_Wc)                               # cross wind
+    # windsupport and crosswind
+    angle_g_w                        = w_direction - g_direction # get angle btw w and g
+    if(angle_g_w < 0)   angle_g_w    = angle_g_w + pi*2          # normalize from 0 to 2*pi
+    if(angle_g_w > pi)  angle_g_w    = 2 * pi - angle_g_w        # ignore site from which the wind comes (left or right)
 
-  # return wind support or cross wind
-  return(ifelse(crosswind == TRUE, Wc, Ws))
+    if(angle_g_w < pi/2) angle_w_Wc  = pi/2 - angle_g_w          # tailwind
+    if(angle_g_w >= pi/2) angle_w_Wc = pi/2 - (pi - angle_g_w)   # headwind
+
+    Ws = w_speed * sin(angle_w_Wc)                               # wind support
+    if(angle_g_w > pi/2) Ws = Ws * -1                            # correct for headwind
+
+    Wc = w_speed * cos(angle_w_Wc)                               # cross wind
+
+    # return wind support or cross wind
+    return(ifelse(crosswind == TRUE, Wc, Ws))
+
+  }
 
 }
 
+windSupport(g_direction = 0, g_speed = 15, w_direction = 6, w_speed = 5)
 
 
+d = data.table(w_direction = seq(-pi, pi, pi/24),
+               w_speed     = rep(5, 49),
+               g_direction = rep(0, 49),
+               g_speed     = rep(15, 49) )
 
-
+               d[, Ws := windSupport(g_direction, g_speed, w_direction, w_speed)                  , by = 1:nrow(d)]
 
