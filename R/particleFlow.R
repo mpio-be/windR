@@ -44,7 +44,7 @@ ob2 = particleFlow(time_start = t1, time_end = tl, time_steps = '30 mins', datBd
 
 
 
-#' particleFlow uruur6uru
+#' particleFlow
 #'
 #' @param time_start
 #' @param time_end
