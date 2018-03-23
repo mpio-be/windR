@@ -11,6 +11,9 @@ Depends: R (>= 3.4.1),
     rgeos,  
     data.table, 
     scales
+Suggests:
+    raster
+    ggplot2
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
