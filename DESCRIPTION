@@ -1,10 +1,16 @@
 Package: windR
 Title: Analysis of tracking data in relation to the wind
 Version: 0.0.0.9000
-Authors@R: c(person("Johannes", "Krietsch", email = "jkrietsch@orn.mpg.de", role = c("aut", "cre")),
-             person("Mihai", "Valcu", email = "valcu@orn.mpg.de", role = c("ctb")) )
+Authors@R: c(
+           person("Johannes", "Krietsch", email = "jkrietsch@orn.mpg.de", role = c("aut", "cre")),
+           person("Mihai", "Valcu", email = "valcu@orn.mpg.de", role = "ctb") )
 Description: What the package does (one paragraph).
-Depends: R (>= 3.4.1), magrittr, sp, rgeos,  data.table, scales
+Depends: R (>= 3.4.1), 
+    magrittr, 
+    sp, 
+    rgeos,  
+    data.table, 
+    scales
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
