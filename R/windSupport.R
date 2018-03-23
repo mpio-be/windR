@@ -1,5 +1,5 @@
 
-#' windSupport
+#' Calculate wind support or crosswind
 #'
 #' This function calculates the wind support based on the ground direction and speed (e.g. of an animal track) and the wind direction and speed. The wind support can be positive (tailwinds) or negative (headwinds). Logical wind speed and ground speed should be in the same unit (e.g. m/s)
 #'
@@ -9,7 +9,7 @@
 #' @param w_speed Can be calculated from u and v wind component: sqrt(u^2 + v^2)
 #' @param crosswind If TRUE the function returns the cross wind instead of the wind support
 #'
-#' @return Wind support of cross wind
+#' @return Wind support or cross wind
 #' @export
 #'
 #' @examples

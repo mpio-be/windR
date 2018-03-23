@@ -2,7 +2,7 @@
 % Please edit documentation in R/windSupport.R
 \name{windSupport}
 \alias{windSupport}
-\title{windSupport}
+\title{Calculate wind support or crosswind}
 \usage{
 windSupport(g_direction, g_speed, w_direction, w_speed, crosswind = FALSE)
 }
@@ -18,7 +18,7 @@ windSupport(g_direction, g_speed, w_direction, w_speed, crosswind = FALSE)
 \item{crosswind}{If TRUE the function returns the cross wind instead of the wind support}
 }
 \value{
-Wind support of cross wind
+Wind support or cross wind
 }
 \description{
 This function calculates the wind support based on the ground direction and speed (e.g. of an animal track) and the wind direction and speed. The wind support can be positive (tailwinds) or negative (headwinds). Logical wind speed and ground speed should be in the same unit (e.g. m/s)

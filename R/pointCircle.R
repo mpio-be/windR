@@ -10,11 +10,10 @@
 #' @param pointN The number of points that should be created on the circle
 #' @param PROJ The projection of the points (should be equal area)
 #'
-#' @return
+#' @return A table with the real point and estimated points around it
 #' @export
 #'
 #' @examples
-#'
 #' x        = 10
 #' y        = 10
 #' x2       = 100

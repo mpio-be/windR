@@ -1,11 +1,11 @@
 
 #' Creates different size values along a vector
 #'
-#' @param x vector along which alpha is created
-#' @param head numeric parameter influencing the lenght of the head
-#' @param to numeric vector including the minimum and maximum size
+#' @param x Vector along which alpha is created
+#' @param head Numeric parameter influencing the lenght of the head
+#' @param to Numeric vector including the minimum and maximum size
 #'
-#' @return numeric verctor with different size values
+#' @return Numeric verctor with different size values
 #' @export
 #'
 #' @examples

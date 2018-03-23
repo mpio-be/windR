@@ -1,11 +1,11 @@
 
 #' Creates different alpha values along a vector
 #'
-#' @param x vector along which alpha is created
-#' @param head numeric parameter influencing the lenght of the head
-#' @param skew numeric parameter influencing the skew of alpha
+#' @param x Vector along which alpha is created
+#' @param head Numeric parameter influencing the lenght of the head
+#' @param skew Numeric parameter influencing the skew of alpha
 #'
-#' @return numeric verctor with different alpha values
+#' @return Numeric verctor with different alpha values
 #' @export
 #'
 #' @examples

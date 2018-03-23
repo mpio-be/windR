@@ -19,11 +19,13 @@ pointCircle(lon, lat, lon2, lat2, pointN = 36, PROJ)
 
 \item{PROJ}{The projection of the points (should be equal area)}
 }
+\value{
+A table with the real point and estimated points around it
+}
 \description{
 This function caclulates the position of points in a circle around a start point. The circle is based on the distance of the second point that is provided. This allows for example to compare the the wind conditions in all directions.
 }
 \examples{
-
 x        = 10
 y        = 10
 x2       = 100

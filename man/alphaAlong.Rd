@@ -7,14 +7,14 @@
 alphaAlong(x, head = 20, skew = -2)
 }
 \arguments{
-\item{x}{vector along which alpha is created}
+\item{x}{Vector along which alpha is created}
 
-\item{head}{numeric parameter influencing the lenght of the head}
+\item{head}{Numeric parameter influencing the lenght of the head}
 
-\item{skew}{numeric parameter influencing the skew of alpha}
+\item{skew}{Numeric parameter influencing the skew of alpha}
 }
 \value{
-numeric verctor with different alpha values
+Numeric verctor with different alpha values
 }
 \description{
 Creates different alpha values along a vector
