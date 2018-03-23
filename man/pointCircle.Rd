@@ -34,6 +34,7 @@ PROJ     = '+proj=laea +lat_0=90 +lon_0=-156.653428 +x_0=0 +y_0=0 +datum=WGS84 +
 dp = pointCircle(x, y, x2, y2, pointN = 36, PROJ)
 
 # visualization of the example
+dp = as.data.table (dp)
 PS  = SpatialPointsDataFrame(dp[1, .(x,y)], dp[1, .(pointType)], proj4string = CRS(PROJ), match.ID = TRUE)
 PS2 = SpatialPointsDataFrame(dp[, .(x2,y2)], dp[, .(pointType)], proj4string = CRS(PROJ), match.ID = TRUE)
 
