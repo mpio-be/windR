@@ -22,4 +22,3 @@ alphaAlong = function(x, head = 20, skew = -2) {
   ta = rep( min(he), length.out = length(x) -head -1)
   c(ta, he)
 }
-

@@ -1,5 +1,5 @@
 
-#' bearing
+#' Calculate the bearing given two points
 #'
 #' This function calculates the bearing (direction) for something (e.g. an animal) moving from point 1 to point 2.
 #'

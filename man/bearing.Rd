@@ -2,7 +2,7 @@
 % Please edit documentation in R/bearing.R
 \name{bearing}
 \alias{bearing}
-\title{bearing}
+\title{Calculate the bearing given two points}
 \usage{
 bearing(x, y, x2, y2)
 }
