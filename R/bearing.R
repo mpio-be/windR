@@ -16,7 +16,7 @@
 #' bearing(x = 0, y = 0, x2 = 2, y2 = 2)
 #'
 #' # Example 2
-#' require(data.table)
+#' library(data.table)
 #'
 #' d = data.table(x  = rep(0, 21),
 #'                y  = rep(0, 21),

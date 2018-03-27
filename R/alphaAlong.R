@@ -8,6 +8,7 @@
 #' @return Numeric verctor with different alpha values
 #' @export
 #'
+#' @importFrom scales rescale
 #' @examples
 #' library(ggplot2)
 #' d = data.frame(x = 1:100, y = 1:100, a = alphaAlong(1:100, head = 20, skew = -2))

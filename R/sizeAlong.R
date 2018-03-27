@@ -8,6 +8,7 @@
 #' @return Numeric verctor with different size values
 #' @export
 #'
+#' @importFrom scales rescale
 #' @examples
 #' library(ggplot2)
 #' d = data.frame(x = 1:100, y = 1:100, s = sizeAlong(1:100, head = 70, to = c(0.1, 5)))

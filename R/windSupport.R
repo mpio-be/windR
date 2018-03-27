@@ -18,8 +18,6 @@
 #' windSupport(g_direction = 0, g_speed = 15, w_direction = 1, w_speed = 5, crosswind = TRUE)
 #'
 #' # Example 2: constant ground direction, different wind direction
-#' library(data.table)
-#'
 #' d = data.table(w_direction = seq(-pi, pi, pi/24),
 #'                w_speed     = rep(5, 49),
 #'                g_direction = rep(0, 49),

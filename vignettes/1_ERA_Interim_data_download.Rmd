@@ -1,0 +1,66 @@
+---
+title: "ERA_Interim data download"
+author: "Johannes Krietsch"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+
+## Download ERA_Interim wind data
+
+Description of the data set: https://www.ecmwf.int/en/forecasts/datasets/reanalysis-datasets/era-interim
+Data can be downloaded manually, but only for single complete month. To specifiy a time period use Python:
+
+Follow intruction given on their website (registration required): https://software.ecmwf.int/wiki/display/WEBAPI/Access+ECMWF+Public+Datasets
+to get ready for data download via Python
+
+Adapt the script to your requirements.
+
+The code below initiates the data processing. The data can then be downloaded here: http://apps.ecmwf.int/webmars/joblist/
+
+
+```{python, , eval=FALSE}
+
+#!/usr/bin/env python
+from ecmwfapi import ECMWFDataServer
+server = ECMWFDataServer()
+
+server.retrieve({
+    "class": "ei",
+    "dataset": "interim",
+    # specify the date range
+    "date": "2014-06-03/to/2014-06-08",
+    "expver": "1",
+    # specify resolution (0.75 is the one on which the model is created, interpolated data are now available)
+    "grid": "0.75/0.75",
+    # choose a pressure level:
+    "levelist": "850",
+    "levtype": "pl",
+    # select u- and v- wind component, all available parameters see http://apps.ecmwf.int/codes/grib/param-db
+    "param": "131.128/132.128",
+    "step": "0",
+    "stream": "oper",
+    # time steps: model is created in 6-hour steps
+    "time": "00:00:00/06:00:00/12:00:00/18:00:00",
+    "type": "an",
+    # specify the area (Nothern Hemipshere in this case)
+    "area": "87.5/60/30/360",
+    "format" : "netcdf",
+    "target": "ERA_Interrim_850mb_4_7_June_2014",
+})
+
+
+```
+
