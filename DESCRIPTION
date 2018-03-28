@@ -21,7 +21,8 @@ Suggests: R (>= 3.4.1),
     ncdf4,
     stringr,
     doParallel,
-    foreach
+    foreach,
+    testthat
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
