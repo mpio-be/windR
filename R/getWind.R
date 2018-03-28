@@ -14,7 +14,8 @@
 #' @examples
 #' # Load example wind data
 #' PROJ = '+proj=laea +lat_0=90 +lon_0=-156.653428 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 '
-#' w = readRDS('./data/ERA_Interrim_850mb_4_7_June_2014.RDS')
+#' wind_data = system.file('ERA_Interrim', 'ERA_Interrim_850mb_4_7_June_2014_10km.RDS', package = 'windR')
+#' w = readRDS(wind_data)
 #' setkey(w, datetime_)
 #'
 #' # Create example points within the boarders of the wind data (space and time)
