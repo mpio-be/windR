@@ -10,7 +10,8 @@
 #' @return A list containing the u and v component for the point
 #' @export
 #'
-#' @importFrom sp SpatialPoints over SpatialPixelsDataFrame
+#' @importFrom sp SpatialPoints
+#' @importFrom raster rasterFromXYZ extract
 #' @examples
 #' # Load example wind data
 #' PROJ = '+proj=laea +lat_0=90 +lon_0=-156.653428 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 '
@@ -46,8 +47,9 @@
 
 getWind = function(x, y , w, PROJ) {
 
-  wpx = sp::SpatialPixelsDataFrame(w[, .(x,y)], w[, .(u, v)], proj4string = CRS(PROJ))
-  o   = sp::over(SpatialPoints(cbind(x, y), proj4string = CRS(PROJ)), wpx)
+  wpx = raster::rasterFromXYZ(w[, .(x, y, u, v)], crs = PROJ)
+  Pxy = sp::SpatialPoints(cbind(x, y), proj4string = crs(PROJ))
+  o   = raster::extract(wpx, Pxy)
 
   return(list(o$u[1], o$v[1]))
 
