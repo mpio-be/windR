@@ -15,7 +15,13 @@ Imports:
 Suggests: R (>= 3.4.1), 
     ggplot2,
     knitr,
-    rmarkdown
+    rmarkdown,
+    rgdal,
+    gdalUtils,
+    ncdf4,
+    stringr,
+    doParallel,
+    foreach
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
