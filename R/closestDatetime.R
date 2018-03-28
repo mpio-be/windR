@@ -19,7 +19,7 @@ closestDatetime = function(datetime_, datetimes){
   cN = which(abs(datetimes - datetime_) == min(abs(datetimes - datetime_)))
   cD = as.POSIXct(datetimes[cN])
 
-  return(cD[1])
+  cD[1]
 
 }
 

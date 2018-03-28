@@ -67,7 +67,7 @@ windSupport = function(g_direction, g_speed, w_direction, w_speed, crosswind = F
     Wc = w_speed * cos(angle_w_Wc)                               # cross wind
 
     # return wind support or cross wind
-    return(ifelse(crosswind == TRUE, Wc, Ws))
+    ifelse(crosswind == TRUE, Wc, Ws)
 
   }
 

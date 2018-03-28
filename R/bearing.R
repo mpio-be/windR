@@ -46,7 +46,7 @@ bearing <- function(x, y, x2, y2){
   b[b == 0] = 1  #corrects for the fact that sign(0) == 0
   tempangle = b * (yy < 0) * pi + atan(xx/yy)
 
-  return(tempangle)
+  tempangle
 
 }
 

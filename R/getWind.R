@@ -51,7 +51,7 @@ getWind = function(x, y , w, PROJ) {
   Pxy = sp::SpatialPoints(cbind(x, y), proj4string = crs(PROJ))
   o   = raster::extract(wpx, Pxy)
 
-  return(list(o[1], o[2]))
+  list(o[1], o[2])
 
 }
 
