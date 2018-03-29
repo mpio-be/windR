@@ -1,6 +1,7 @@
 #' closestDatetime
 #'
-#' Function that finds the closest datetime_ within a vector of given datetimes. E.g. one has a point of a track at a given time and searches for the closest wind data.
+#' Function that finds the closest datetime_ within a vector of given datetimes. E.g. one has a point of a track
+#' at a given time and searches for the closest wind data.
 #'
 #' @param datetime_ Given time as POSIXct
 #' @param datetimes Vector of possible datetimes as POSIXct

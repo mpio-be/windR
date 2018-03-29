@@ -21,7 +21,9 @@ windSupport(g_direction, g_speed, w_direction, w_speed, crosswind = FALSE)
 Wind support or cross wind
 }
 \description{
-This function calculates the wind support based on the ground direction and speed (e.g. of an animal track) and the wind direction and speed. The wind support can be positive (tailwinds) or negative (headwinds). Logical wind speed and ground speed should be in the same unit (e.g. m/s)
+This function calculates the wind support based on the ground direction and speed (e.g. of an animal track)
+and the wind direction and speed. The wind support can be positive (tailwinds) or negative (headwinds).
+Logical wind speed and ground speed should be in the same unit (e.g. m/s)
 }
 \examples{
 # Example 1

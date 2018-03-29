@@ -11,7 +11,7 @@
 #' @export
 #'
 #' @importFrom sp SpatialPoints
-#' @importFrom raster rasterFromXYZ extract
+#' @importFrom raster rasterFromXYZ extract crs
 #' @examples
 #' # Load example wind data
 #' PROJ = '+proj=laea +lat_0=90 +lon_0=-156.653428 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 '
@@ -47,9 +47,9 @@
 
 getWind = function(x, y , w, PROJ) {
 
-  wpx = raster::rasterFromXYZ(w[, .(x, y, u, v)], crs = PROJ)
-  Pxy = sp::SpatialPoints(cbind(x, y), proj4string = crs(PROJ))
-  o   = raster::extract(wpx, Pxy)
+  wpx = rasterFromXYZ(w[, .(x, y, u, v)], crs = PROJ)
+  Pxy = SpatialPoints(cbind(x, y), proj4string = crs(PROJ))
+  o   = extract(wpx, Pxy)
 
   list(o[1], o[2])
 

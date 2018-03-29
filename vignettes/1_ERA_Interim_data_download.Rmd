@@ -31,7 +31,7 @@ Adapt the script to your requirements.
 The code below initiates the data processing. The data can then be downloaded here: http://apps.ecmwf.int/webmars/joblist/
 
 
-```{python, eval=FALSE}
+```{python, eval = FALSE}
 
 #!/usr/bin/env python
 from ecmwfapi import ECMWFDataServer

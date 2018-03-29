@@ -15,7 +15,8 @@ closestDatetime(datetime_, datetimes)
 Closest datetime as POSIXct
 }
 \description{
-Function that finds the closest datetime_ within a vector of given datetimes. E.g. one has a point of a track at a given time and searches for the closest wind data.
+Function that finds the closest datetime_ within a vector of given datetimes. E.g. one has a point of a track
+at a given time and searches for the closest wind data.
 }
 \examples{
 d1 = as.POSIXct("2014-06-09 21:44:25 CEST")
