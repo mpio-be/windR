@@ -3,6 +3,8 @@ context('getWind')
 # warning because of w[, .(x, y, u, v)] in rasterFromXYZ, but I don't know why,
 # something to do with: http://lists.r-forge.r-project.org/pipermail/datatable-commits/2014-May/001255.html
 
+require(data.table)
+require(raster)
 assignInNamespace('cedta.override', c(data.table:::cedta.override,'windR'), 'data.table')
 
 # Example data
@@ -39,8 +41,8 @@ test_that('getWind is list', {
 
 
 # steps working
-wpx = rasterFromXYZ(w[, .(x, y, u, v)], crs = PROJ)
-Pxy = SpatialPoints(cbind(x, y), proj4string = crs(PROJ))
+wpx = raster::rasterFromXYZ(w[, .(x, y, u, v)], crs = PROJ)
+Pxy = sp::SpatialPoints(cbind(x, y), proj4string = sp::CRS(PROJ))
 o   = extract(wpx, Pxy)
 
 test_that('getWind parts are what they should be', {

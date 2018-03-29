@@ -6,6 +6,9 @@ warnings_are_errors: false
 
 cache: packages
 
+apt_packages:
+  - ncdf4
+
 r_binary_packages:
   - reticulate
 
