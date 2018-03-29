@@ -32,7 +32,7 @@ This file describes the process from the downloaded NetCDF file, to a raster bri
 rm(list = ls())
 
 # Packages
-sapply(c('rgdal', 'gdalUtils', 'raster', 'data.table', 'magrittr', 'sp', 'rgeos', 'raster', 'ncdf4'),
+sapply(c('rgdal', 'gdalUtils', 'raster', 'data.table', 'magrittr', 'sp', 'rgeos', 'raster'),
        function(x) suppressPackageStartupMessages(require(x , character.only = TRUE, quietly = TRUE) ) )
 
 # Projections
@@ -60,10 +60,6 @@ var = 'v'
 
 # assign path to NetCDF (data within windR package or change to your downladed file)
 netcdf = system.file('/ERA_Interrim', 'ERA_Interrim_850mb_4_7_June_2014.nc', package = 'windR')
-
-# check data
-# nc <- nc_open(netcdf)
-# print(nc)
 
 # create raster brick
 tmp = brick(netcdf, varname = var)
