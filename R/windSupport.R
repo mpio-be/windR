@@ -26,10 +26,13 @@
 #'                g_direction = rep(0, 49),
 #'                g_speed     = rep(15, 49) )
 #'
-#'                d[, Ws := windSupport(g_direction, g_speed, w_direction, w_speed)                  , by = 1:nrow(d)]
-#'                d[, Wc := windSupport(g_direction, g_speed, w_direction, w_speed, crosswind = TRUE), by = 1:nrow(d)]
+#'                d[, Ws := windSupport(g_direction, g_speed, w_direction, w_speed),
+#'                    by = 1:nrow(d)]
+#'                d[, Wc := windSupport(g_direction, g_speed, w_direction, w_speed,
+#'                    crosswind = TRUE), by = 1:nrow(d)]
 #'
-#'                plot(Ws ~ w_direction, d, type = 'l', ylab = 'Ws (black) / Wc (red)', xlab = 'Wind direction')
+#'                plot(Ws ~ w_direction, d, type = 'l', ylab = 'Ws (black) / Wc (red)',
+#'                          xlab = 'Wind direction')
 #'                lines(Wc ~ w_direction, d, col = 'red')
 
 windSupport = function(g_direction, g_speed, w_direction, w_speed, crosswind = FALSE){

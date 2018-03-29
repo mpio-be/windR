@@ -19,7 +19,8 @@ bearing(x, y, x2, y2)
 Bearing in radians from point 1 to point 2 (from -pi to pi)
 }
 \description{
-This function calculates the bearing (direction) for something (e.g. an animal) moving from point 1 to point 2.
+This function calculates the bearing (direction) for something (e.g. an animal)
+moving from point 1 to point 2.
 }
 \examples{
 # Example 1

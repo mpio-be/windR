@@ -24,15 +24,18 @@
 #' x2       = 100
 #' y2       = 600
 #' pointN   = 36
-#' PROJ     = '+proj=laea +lat_0=90 +lon_0=-156.653428 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 '
+#' PROJ     = '+proj=laea +lat_0=90 +lon_0=-156.653428 +x_0=0 +y_0=0 +datum=WGS84 +units=m
+#'             +no_defs +ellps=WGS84 +towgs84=0,0,0 '
 #'
 #' dp = pointCircle(x, y, x2, y2, pointN = 36, PROJ)
 #'
 #' # visualization of the example
 #' library(sp)
 #' dp = as.data.table (dp)
-#' PS  = SpatialPointsDataFrame(dp[1, .(x,y)], dp[1, .(pointType)], proj4string = CRS(PROJ), match.ID = TRUE)
-#' PS2 = SpatialPointsDataFrame(dp[, .(x2,y2)], dp[, .(pointType)], proj4string = CRS(PROJ), match.ID = TRUE)
+#' PS  = SpatialPointsDataFrame(dp[1, .(x,y)], dp[1, .(pointType)],
+#'                              proj4string = CRS(PROJ), match.ID = TRUE)
+#' PS2 = SpatialPointsDataFrame(dp[, .(x2,y2)], dp[, .(pointType)],
+#'                              proj4string = CRS(PROJ), match.ID = TRUE)
 #'
 #' plot(PS2[PS2@data$pointType == 'estimated', ], col = 'red')         # estimated points
 #' plot(PS2[PS2@data$pointType == 'real', ], col = 'blue', add = TRUE) # second point
@@ -45,8 +48,10 @@ pointCircle = function(lon, lat, lon2, lat2, pointN = 36, PROJ){
 
   # create spatial points
 
-  PS = SpatialPointsDataFrame( cbind(lon,lat), data.frame(pointType = 'real'), proj4string = CRS(PROJ), match.ID = TRUE)
-  PS2 = SpatialPointsDataFrame(cbind(lon2,lat2), data.frame(pointType = 'real'), proj4string = CRS(PROJ), match.ID = TRUE )
+  PS = SpatialPointsDataFrame( cbind(lon,lat), data.frame(pointType = 'real'),
+                               proj4string = CRS(PROJ), match.ID = TRUE)
+  PS2 = SpatialPointsDataFrame(cbind(lon2,lat2), data.frame(pointType = 'real'),
+                               proj4string = CRS(PROJ), match.ID = TRUE )
 
   # create a circle around the point with the distance of the second point
   PS_buffer = gBuffer(PS, width = P_dist, quadsegs = 10)
@@ -55,7 +60,7 @@ pointCircle = function(lon, lat, lon2, lat2, pointN = 36, PROJ){
   # sample points on the circle
   PS_points = spsample(PS_line, n = pointN, type = 'regular')
 
-  dE = as.data.frame(PS_points)
+  dE = data.frame(PS_points)
 
   d1 = data.frame(x = lon,
                   y = lat,

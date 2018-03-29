@@ -32,7 +32,8 @@
 data(PESA_example_ws)
 }
 \description{
-Write a description of the data set... Same as PESA_example_tracks plus ground speed, wind support, etc. stuff calculated in vignette 4_Wind_support_and_track_animation
+Write a description of the data set... Same as PESA_example_tracks plus ground speed,
+wind support, etc. stuff calculated in vignette 4_Wind_support_and_track_animation
 }
 \examples{
 PESA_example_ws

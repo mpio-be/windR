@@ -14,17 +14,24 @@ getWind(x, y, w, PROJ)
 \item{w}{Data table with wind data containing u & v wind component and the datetime}
 
 \item{PROJ}{Projection of the point and wind data (has to be the same)}
+
+\item{u}{U-Wind component within data.table w}
+
+\item{v}{V-Wind component within data.table w}
 }
 \value{
 A list containing the u and v component for the point
 }
 \description{
-This function takes given points (and their datetime) and connects them with the closest wind data in space.
+This function takes given points (and their datetime) and connects them with the closest
+wind data in space.
 }
 \examples{
 # Load example wind data
-PROJ = '+proj=laea +lat_0=90 +lon_0=-156.653428 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 '
-wind_data = system.file('ERA_Interrim', 'ERA_Interrim_850mb_4_7_June_2014_10km.RDS', package = 'windR')
+PROJ = '+proj=laea +lat_0=90 +lon_0=-156.653428 +x_0=0 +y_0=0 +datum=WGS84 +units=m
+        +no_defs +ellps=WGS84 +towgs84=0,0,0 '
+wind_data = system.file('ERA_Interrim', 'ERA_Interrim_850mb_4_7_June_2014_10km.RDS',
+                         package = 'windR')
 w = readRDS(wind_data)
 setkey(w, datetime_)
 
@@ -45,7 +52,7 @@ n_points = 100
 d = data.table(point_id  = 1:n_points,
                x         = sample(x_ext, n_points, replace=TRUE),
                y         = sample(y_ext, n_points, replace=TRUE),
-               datetime_ = c(sample(w$datetime_, n_points)) + 60*60) # existing wind data + 1 hour
+               datetime_ = c(sample(w$datetime_, n_points)) + 60*60) # existing wind data + 1 h
 
 # Assign closest datetime of wind data
 setkey(d, point_id)

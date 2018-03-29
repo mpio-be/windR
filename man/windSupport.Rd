@@ -21,9 +21,10 @@ windSupport(g_direction, g_speed, w_direction, w_speed, crosswind = FALSE)
 Wind support or cross wind
 }
 \description{
-This function calculates the wind support based on the ground direction and speed (e.g. of an animal track)
-and the wind direction and speed. The wind support can be positive (tailwinds) or negative (headwinds).
-Logical wind speed and ground speed should be in the same unit (e.g. m/s)
+This function calculates the wind support based on the ground direction and speed
+(e.g. of an animal track) and the wind direction and speed. The wind support can be
+positive (tailwinds) or negative (headwinds). Logical wind speed and ground speed
+should be in the same unit (e.g. m/s)
 }
 \examples{
 # Example 1
@@ -36,9 +37,12 @@ d = data.table(w_direction = seq(-pi, pi, pi/24),
                g_direction = rep(0, 49),
                g_speed     = rep(15, 49) )
 
-               d[, Ws := windSupport(g_direction, g_speed, w_direction, w_speed)                  , by = 1:nrow(d)]
-               d[, Wc := windSupport(g_direction, g_speed, w_direction, w_speed, crosswind = TRUE), by = 1:nrow(d)]
+               d[, Ws := windSupport(g_direction, g_speed, w_direction, w_speed),
+                   by = 1:nrow(d)]
+               d[, Wc := windSupport(g_direction, g_speed, w_direction, w_speed,
+                   crosswind = TRUE), by = 1:nrow(d)]
 
-               plot(Ws ~ w_direction, d, type = 'l', ylab = 'Ws (black) / Wc (red)', xlab = 'Wind direction')
+               plot(Ws ~ w_direction, d, type = 'l', ylab = 'Ws (black) / Wc (red)',
+                         xlab = 'Wind direction')
                lines(Wc ~ w_direction, d, col = 'red')
 }
