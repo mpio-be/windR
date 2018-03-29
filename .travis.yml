@@ -2,10 +2,12 @@
 
 language: R
 sudo: false
-warnings_are_errors: true
+warnings_are_errors: false
 
 cache: packages
 
+r_binary_packages:
+  - reticulate
 
 after_success:
   - Rscript -e 'devtools::install();devtools::test()'
