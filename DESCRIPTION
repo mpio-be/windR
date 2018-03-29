@@ -22,7 +22,8 @@ Suggests: R (>= 3.4.1),
     stringr,
     doParallel,
     foreach,
-    testthat
+    testthat,
+    reticulate
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
