@@ -1,7 +1,10 @@
 
 #' Create points in a circle around an existing point
 #'
-#' This function caclulates the position of points in a circle around a start point. The circle is based on the distance of the second point that is provided. This allows for example to compare the the temperature conditions in all directions (i.e. is a bird flying in the direction of warmer temperatures).
+#' This function caclulates the position of points in a circle around a start point. The circle
+#' is based on the distance of the second point that is provided. This allows for example to
+#' compare the the temperature conditions in all directions (i.e. is a bird flying in the
+#' direction of warmer temperatures).
 #'
 #' @param lon Longitude of point 1
 #' @param lat Latitude of point 1

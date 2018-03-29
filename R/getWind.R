@@ -1,6 +1,7 @@
 #' Connect points to closest wind data in space and time
 #'
-#' This function takes given points (and their datetime) and connects them with the closest wind data in space.
+#' This function takes given points (and their datetime) and connects them with the closest
+#' wind data in space.
 #'
 #' @param x Longitude of the point
 #' @param y Latitude of the point
@@ -47,7 +48,7 @@
 
 getWind = function(x, y , w, PROJ) {
 
-  wpx = rasterFromXYZ(w[, .(x, y, u, v)], crs = PROJ)
+  wpx = rasterFromXYZ(w[, list(x, y, u, v)], crs = PROJ)
   Pxy = SpatialPoints(cbind(x, y), proj4string = crs(PROJ))
   o   = extract(wpx, Pxy)
 

@@ -59,10 +59,10 @@ var = 'u'
 var = 'v'
 
 # assign path to NetCDF (data within windR package or change to your downladed file)
-netcdf = system.file('/ERA_Interrim', 'ERA_Interrim_850mb_4_7_June_2014.nc', package = 'windR')
+netcdf_ = system.file('/ERA_Interrim', 'ERA_Interrim_850mb_4_7_June_2014.nc', package = 'windR')
 
 # create raster brick
-tmp = brick(netcdf, varname = var)
+tmp = brick(netcdf_, varname = var)
 
 # get dates
 dd = data.table(rastNam = names(tmp))

@@ -1,9 +1,10 @@
 
 #' Calculate wind support or crosswind
 #'
-#' This function calculates the wind support based on the ground direction and speed (e.g. of an animal track)
-#' and the wind direction and speed. The wind support can be positive (tailwinds) or negative (headwinds).
-#' Logical wind speed and ground speed should be in the same unit (e.g. m/s)
+#' This function calculates the wind support based on the ground direction and speed
+#' (e.g. of an animal track) and the wind direction and speed. The wind support can be
+#' positive (tailwinds) or negative (headwinds). Logical wind speed and ground speed
+#' should be in the same unit (e.g. m/s)
 #'
 #' @param g_direction The bearing (Can be calculated based on two points using the function bearing)
 #' @param g_speed The ground speed (Can be calculated as distance (between two points) / time (between two points))
