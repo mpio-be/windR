@@ -22,7 +22,6 @@ r_binary_packages:
   - doParallel
   - foreach
   - testthat
-  - rgdal
   - stringr
   - testthat
 
