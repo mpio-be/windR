@@ -6,6 +6,9 @@ warnings_are_errors: false
 
 cache: packages
 
+apt_packages:
+  - ncdf4
+
 r_binary_packages:
   - reticulate
   - magrittr
@@ -18,17 +21,13 @@ r_binary_packages:
   - knitr
   - rmarkdown
   - rgdal
-  - gdalUtils
   - stringr
   - doParallel
   - foreach
   - testthat
   - rgdal
-  - gdalUtils
   - stringr
   - testthat
-  - qpdf
-  - ncdf4
 
 after_success:
   - Rscript -e 'devtools::install();devtools::test()'
