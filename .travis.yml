@@ -17,7 +17,6 @@ r_binary_packages:
   - ggplot2
   - knitr
   - rmarkdown
-  - rgdal
   - stringr
   - doParallel
   - foreach
