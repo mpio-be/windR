@@ -27,7 +27,7 @@ This file describes the process from the downloaded NetCDF file, to a raster bri
 
 ## Load packages, define study area and set working directory
 
-```{r}
+```{r, eval=FALSE}
 # Clear working enviroment
 rm(list = ls())
 
@@ -52,7 +52,7 @@ wd = tempdir() # temporary in this case (choose yourself)
 
 ## 1. Load & crop the NetCDF files (v & u surface wind) and save them as tif
 
-```{r}
+```{r, eval=FALSE}
 
 # run for both u- and v-wind component
 var = 'u'
@@ -96,7 +96,7 @@ writeRaster(tmp4, filename = paste0(wd, '/ERA_Interim_', var, '_wind_850mb_2014.
 
 ## 2. Bicubic interpolation to get a higher resolution (10 km)
 
-```{r}
+```{r, eval=FALSE}
 
 # run for both u- and v-wind component
 var = 'u'
