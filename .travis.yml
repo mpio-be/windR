@@ -8,6 +8,27 @@ cache: packages
 
 r_binary_packages:
   - reticulate
+  - magrittr
+  - data.table
+  - scales
+  - sp
+  - raster
+  - rgeos
+  - ggplot2
+  - knitr
+  - rmarkdown
+  - rgdal
+  - gdalUtils
+  - stringr
+  - doParallel
+  - foreach
+  - testthat
+  - rgdal
+  - gdalUtils
+  - stringr
+  - testthat
+  - qpdf
+  - ncdf4
 
 after_success:
   - Rscript -e 'devtools::install();devtools::test()'
