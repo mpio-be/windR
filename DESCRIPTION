@@ -23,7 +23,8 @@ Suggests: R (>= 3.4.1),
     foreach,
     testthat,
     reticulate,
-    qpdf
+    qpdf,
+    ncdf4
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true

@@ -14,10 +14,6 @@ getWind(x, y, w, PROJ)
 \item{w}{Data table with wind data containing u & v wind component and the datetime}
 
 \item{PROJ}{Projection of the point and wind data (has to be the same)}
-
-\item{u}{U-Wind component within data.table w}
-
-\item{v}{V-Wind component within data.table w}
 }
 \value{
 A list containing the u and v component for the point

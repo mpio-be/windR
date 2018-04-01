@@ -6,8 +6,6 @@
 #' @param x Longitude of the point
 #' @param y Latitude of the point
 #' @param w Data table with wind data containing u & v wind component and the datetime
-#' @param u U-Wind component within data.table w
-#' @param v V-Wind component within data.table w
 #' @param PROJ Projection of the point and wind data (has to be the same)
 #'
 #' @return A list containing the u and v component for the point
