@@ -14,7 +14,6 @@ Imports:
     raster,
     rgeos
 Suggests: 
-    R (>= 3.4.1), 
     ggplot2,
     knitr,
     rmarkdown,
