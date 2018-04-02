@@ -5,8 +5,7 @@ sudo: required
 warnings_are_errors: false
 
 apt_packages:
-  - rgdal
-  - gdalUtils
+
 
 cache: packages
 
@@ -27,6 +26,8 @@ r_binary_packages:
   - testthat
   - stringr
   - testthat
+  - rgdal
+  - gdalUtils
 
 after_success:
   - Rscript -e 'devtools::install();devtools::test()'
