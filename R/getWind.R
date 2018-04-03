@@ -11,6 +11,7 @@
 #' @return A list containing the u and v component for the point
 #' @export
 #'
+#' @import data.table
 #' @importFrom sp SpatialPoints
 #' @importFrom raster rasterFromXYZ extract crs
 #' @examples
@@ -47,6 +48,7 @@
 #'
 #' # Assign closest wind data
 #' d[, c('u', 'v') := getWind(x = x, y = y, w = w[J(w_date), nomatch=0L], PROJ), by = point_id]
+globalVariables(c('u', 'v'))
 
 getWind = function(x, y , w, PROJ) {
 

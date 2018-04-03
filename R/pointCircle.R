@@ -18,6 +18,7 @@
 #'
 #' @importFrom sp SpatialPointsDataFrame spsample CRS
 #' @importFrom rgeos gBuffer
+#' @importFrom methods as
 #' @examples
 #' x        = 10
 #' y        = 10
