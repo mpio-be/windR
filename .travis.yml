@@ -28,6 +28,7 @@ r_binary_packages:
   - testthat
   - rgdal
   - gdalUtils
+  - covr
 
 after_success:
   - Rscript -e 'devtools::install();devtools::test()'
