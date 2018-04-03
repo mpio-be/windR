@@ -21,7 +21,149 @@ This package is still in pre-release alpha version. Work in progress. Use at own
 ## WindR
 
 
-`windR` is a R package to 
+`windR` is a R package to connect animal tracking data with wind data (or sea current data) and allows to visulize animal movements within the flow of the medium that they move in. 
+
+Describe vignettes...
+
+
+
+```{r, echo = FALSE, results = 'hide'}
+
+# Packages
+sapply(c('magrittr', 'data.table', 'windR', 'raster', 'ggplot2', 'stringr', 'grid', 'rgeos'),
+       function(x) suppressPackageStartupMessages(require(x , character.only = TRUE, quietly = TRUE) ) )
+
+# Projection (polar Lambert azimuthal equal-area with longitude origin 156.65° W)
+PROJ   = '+proj=laea +lat_0=90 +lon_0=-156.653428 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 '
+
+# load particles and calculate the wind speed
+particle_data = system.file('Map', 'Wind_particles.RDS', package = 'windR')
+ob = readRDS(particle_data)
+setkey(ob, datetime_)
+ob[, w_speed := sqrt(u^2 + v^2)]
+
+# Load tracks with wind support
+d = PESA_example_ws
+d[, datetime_ := as.POSIXct(datetime_)]
+
+# load wind data
+wind_data = system.file('ERA_Interrim', 'ERA_Interrim_850mb_4_7_June_2014_10km.RDS', package = 'windR')
+w = readRDS(wind_data)
+
+# Get borders of the wind data
+w1 = w[datetime_ == unique(w$datetime_[1])]
+wp = SpatialPoints(cbind(w1$x, w1$y), proj4string = CRS(PROJ))
+datBdry = gEnvelope(wp)
+
+# load high resolution map of area around Barrow
+map_data = system.file('Map', 'BRW_map.RDS', package = 'windR')
+BRW = readRDS(map_data)
+
+# Create simple base map
+b  = datBdry %>% fortify %>% data.table
+bb = gBuffer(datBdry, width = 30000) %>% gEnvelope %>% fortify %>% data.table
+wr = BRW %>% fortify %>% data.table
+
+bm =
+  ggplot() + coord_equal() +
+  labs(x = NULL, y = NULL) +
+  geom_polygon(  data = bb, aes(long, lat), fill = NA, colour = 1, size = .1) +
+  geom_polygon(  data = b,  aes(long, lat), fill = 'dodgerblue4', colour = 1, size = .1) +
+  geom_polygon(  data = wr, aes(long, lat, group = group), fill   = 'steelblue4' , colour = 'white', size = .2) +
+  ggsn::scalebar(data = b,  dist = 100, st.size = 3 ,height = .01) +
+  rangeMapper::theme_rangemap()
+
+### add tracks coloured with wind support
+# Wind support scale
+col_Ws = c('firebrick4', 'firebrick3', 'gold', 'springgreen3', 'springgreen4', 'springgreen4')
+
+Ws   = d$Ws %>% na.omit(.)
+Ws_n = (-6 - min(Ws)) / (max(Ws) - min(Ws))
+Ws_0 = (0  - min(Ws)) / (max(Ws) - min(Ws))
+Ws_p = (6  - min(Ws)) / (max(Ws) - min(Ws))
+Ws_m = (max(Ws)  - min(Ws)) / (max(Ws) - min(Ws))
+
+col_WS_v  = c(0, Ws_n, Ws_0, Ws_p, Ws_m, 1)
+
+# plots
+gi =
+  bm +
+  geom_path(data = d, aes(x, y, group = bird_patch_id , colour = Ws), lineend = "round", size = 0.7) +
+  scale_colour_gradientn(colours = col_Ws, values = col_WS_v, limits=c(min(d$Ws, na.rm = T), max(d$Ws, na.rm = T)), name = 'Wind support (m/s)') +
+  theme(legend.direction = 'horizontal', legend.position = c(0.12, 0.13),
+        legend.title = element_text(face = 'bold', color = 'white'),
+        legend.text = element_text(face = 'bold', color = 'white')) +
+  guides(colour = guide_colourbar(title.position = 'top', title.hjust = 0.5, barwidth = 8))
+
+
+# Function to extract legend (from: https://gist.github.com/crsh/be88be19233f1df4542aca900501f0fb#file-gglegend-r-L7)
+# otherwise plots without tracks would have no legend
+
+gglegend <- function(x){
+  tmp <- ggplot_gtable(ggplot_build(x))
+  leg <- which(sapply(tmp$grobs, function(y) y$name) == "guide-box")
+  tmp$grobs[[leg]]
+}
+
+
+legend = gglegend(gi)
+# legend position
+legend$vp$x <- unit(.13, 'npc')
+legend$vp$y <- unit(.08, 'npc')
+
+
+```
+
+
+```{r, echo = FALSE, , fig.width = 8, fig.height = 8}
+
+# Set time frame and path
+ts = data.table(date = seq('2014-06-05' %>% as.Date %>% as.POSIXct, '2014-06-07' %>% as.Date %>% as.POSIXct, by = '30 mins') )
+setkey(ts, date)
+
+# calculate last datetime of each point (to make it disappear at this point)
+d[, lastDate := max(datetime_, na.rm = TRUE), by = bird_patch_id]
+setkey(d,  datetime_)
+
+# Example plot
+i = 45
+
+# add track for particles
+tail     = 20           # lenght of the running tail
+tmp_date = ts[i]$date   # current date
+
+# subset particles
+tmp_date_sub = seq(tmp_date  - 1800 * tail, tmp_date, by = '30 mins')
+pi = ob[J(tmp_date_sub), nomatch=0L]
+
+# add wind particles to base map
+if (nrow(pi) > 0) pi[, a :=  alphaAlong(datetime_, head = 70, skew = -2), by = particle_id] # alpha
+
+bm_w = bm +
+  geom_path(data = pi, aes(x = x, y = y, group = particle_id, color = w_speed), alpha = pi$a) +
+  scale_colour_gradientn(colours = col_Ws, values = col_WS_v,
+                         limits = c(min(d$Ws, na.rm = T), max(c(d$Ws, ob$w_speed), na.rm = T)), name = 'Wind support (m/s)') +
+  annotate('text', x = 0, y = -1740000,
+           label = paste0('2014 ', format(tmp_date, "%B %d %H:00")),
+           color = 'white', size = 8, fontface = 1) + # size = 5 normal resolution, 8 for high
+  theme(legend.position = 'none',
+        plot.margin = unit(c(-1, -1, -1, -1), 'cm'))
+
+# add bird tracks
+ki = d[datetime_ <= tmp_date & tmp_date < lastDate]
+
+if (nrow(ki) > 0) ki[, a:=  alphaAlong(datetime_, head = 70, skew = -0.1) ,     by = bird_patch_id] # alpha
+if (nrow(ki) > 0) ki[, s:=  sizeAlong( datetime_, head = 70, to = c(0.2, 3)) , by = bird_patch_id] # size
+
+gi =
+  bm_w +
+  geom_path(data = ki, aes(x, y, group = bird_patch_id , colour = Ws), lineend = "round",  alpha = ki$a, size = ki$s)
+
+
+print(gi); grid.draw(legend)
+
+```
+
 
 
 ### To do
@@ -29,9 +171,11 @@ This package is still in pre-release alpha version. Work in progress. Use at own
    * make vignettes travis proof
    * make getWind function testthat proof
 
-### Inspiration
+### Inspiration & Background
 
-This project was inspired by the awesome [earth](https://earth.nullschool.net/) project from [Cameron Beccario](github.com/cambecc/earth), which was itself inspired by the [wind map](http://hint.fm/wind) project from [HINT.FM](http://hint.fm/).
+This project was inspired by the awesome [earth](https://earth.nullschool.net/) project from [Cameron Beccario](https://github.com/cambecc), which was itself inspired by the [wind map](http://hint.fm/wind) project from [HINT.FM](http://hint.fm/).
+
+We saw these particle flow maps of the wind and wanted to see our bird tracks within such visualization. Both `earth` and `wind map` use fixed times of global wind data sets (one wind layer). Particles are randomly thrown in the map and move based on the wind speed and direction. To plot our bird tracks within the wind, we needed to find a way to continuously change the wind data with the time that the birds moved. We did so by always using the closest wind data in time, resulting in a dynamic flow of the wind particles changing over time. We did our best to make this workflow fast in R, but know that using other programming languages (i.e. JavaScript) could improve the speed of these analyses. We are happy if somebody wants to improve (speed-up) this script or translates parts (esp. the particle creation) into another programming language.
 
 ### Installation
 
