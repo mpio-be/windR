@@ -46,7 +46,7 @@ wd = tempdir() # temporary in this case (choose yourself)
 
 # load wind data
 wind_data = system.file('ERA_Interrim', 'ERA_Interrim_850mb_4_7_June_2014_10km.RDS', package = 'windR')
-wA = readRDS(wind_data)
+w = readRDS(wind_data)
 
 # Get borders of the wind data
 w1 = w[datetime_ == unique(w$datetime_[1])]
@@ -56,7 +56,7 @@ datBdry = gEnvelope(wp)
 # load high resolution map of area around Barrow
 map_data = system.file('Map', 'BRW_map.RDS', package = 'windR')
 BRW = readRDS(map_data)
-plot(BRW, col = 'red', add = TRUE)
+plot(BRW, col = 'grey')
 
 # example to get a simple map
 # library(maptools)
