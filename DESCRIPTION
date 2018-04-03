@@ -24,7 +24,9 @@ Suggests:
     doParallel,
     foreach,
     testthat,
-    reticulate
+    reticulate,
+    grid,
+    stringr
 License: GPL (>= 3) + file LICENSE
 Encoding: UTF-8
 LazyData: true
