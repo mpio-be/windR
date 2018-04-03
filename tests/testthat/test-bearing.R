@@ -22,7 +22,11 @@ test_that('bearing gives correct angle', {
 })
 
 
+test_that('bearing gives NA without second point', {
 
+  expect_identical( bearing(x = 0, y = 0, x2 = NA, y2 = NA),  NaN )
+
+})
 
 
 
