@@ -1,21 +1,29 @@
-README
-================
+---
+title: "README"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
 
 [![Travis Build Status](https://travis-ci.org/mpio-be/windR.svg?branch=master)](https://travis-ci.org/mpio-be/windR)
+
 
 ### Warning
 
 This package is still in pre-release alpha version. Work in progress. Use at own risk.
 
-WindR
------
+## WindR
 
 Description of the Package
 
+
 ### To do
 
-### Installation
 
-``` r
+
+### Installation
+```R
 devtools::install_github("mpio-be/windR") # development.
 ```
