@@ -48,18 +48,14 @@ wd = tempdir() # temporary in this case (choose yourself)
 wind_data = system.file('ERA_Interrim', 'ERA_Interrim_850mb_4_7_June_2014_10km.RDS', package = 'windR')
 wA = readRDS(wind_data)
 
-# get extent of the wind data, defining the extent of the map
-w1 = wA[datetime_ == unique(wA$datetime_[1])]
+# Get borders of the wind data
+w1 = w[datetime_ == unique(w$datetime_[1])]
 wp = SpatialPoints(cbind(w1$x, w1$y), proj4string = CRS(PROJ))
 datBdry = gEnvelope(wp)
 
-# load high resolution map of area and crop with data boundary
-map_data = system.file('Map', 'Arctic_map.RDS', package = 'windR')
-arctic = readRDS(map_data)
-
-BRW = arctic %>% gIntersection(datBdry)
-
-plot(arctic)
+# load high resolution map of area around Barrow
+map_data = system.file('Map', 'BRW_map.RDS', package = 'windR')
+BRW = readRDS(map_data)
 plot(BRW, col = 'red', add = TRUE)
 
 # example to get a simple map

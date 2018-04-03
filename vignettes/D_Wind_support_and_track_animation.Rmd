@@ -118,10 +118,9 @@ w1 = w[datetime_ == unique(w$datetime_[1])]
 wp = SpatialPoints(cbind(w1$x, w1$y), proj4string = CRS(PROJ))
 datBdry = gEnvelope(wp)
 
-# load high resolution map of area and crop with data boundary
-map_data = system.file('Map', 'Arctic_map.RDS', package = 'windR')
-arctic = readRDS(map_data)
-BRW = arctic %>% gIntersection(datBdry)
+# load high resolution map of area around Barrow
+map_data = system.file('Map', 'BRW_map.RDS', package = 'windR')
+BRW = readRDS(map_data)
 
 # Create simple base map
 b  = datBdry %>% fortify %>% data.table
