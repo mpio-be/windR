@@ -4,11 +4,6 @@ language: R
 sudo: required
 warnings_are_errors: false
 
-apt_packages:
-
-
-cache: packages
-
 r_binary_packages:
   - reticulate
   - magrittr
