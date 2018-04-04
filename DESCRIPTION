@@ -20,7 +20,6 @@ Suggests:
     rmarkdown,
     rgdal,
     gdalUtils,
-    stringr,
     doParallel,
     foreach,
     testthat,
