@@ -4,6 +4,9 @@ language: R
 sudo: required
 warnings_are_errors: false
 
+before_install:
+  - sudo apt-get install libproj-dev libgeos-dev netcdf4
+
 r_binary_packages:
   - reticulate
   - magrittr
