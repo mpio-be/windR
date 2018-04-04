@@ -10,6 +10,9 @@ before_install:
   - cd
   - sudo apt-get install libproj-dev libgeos-dev netcdf4
 
+
+cache: packages
+
 r_binary_packages:
   - reticulate
   - magrittr
