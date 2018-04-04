@@ -31,7 +31,7 @@ r_binary_packages:
   - rgdal
   - gdalUtils
   - covr
-  - netcdf4
+  - ncdf4
 
 after_success:
   - Rscript -e 'devtools::install();devtools::test()'
