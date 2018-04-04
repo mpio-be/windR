@@ -1,0 +1,217 @@
+---
+title: "Wind animation with tracks"
+author: "Johannes Krietsch"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+This file describes the final step (based on vignettes 1 to 4) of creating an animation of the wind as particle flow together with bird tracks which are coloured with the wind support that they experienced flying in these wind conditions.
+
+**Summary**
+
+1. Prepare base map
+2. Create particle flow animation with tracks coloured with wind support
+
+
+## 1. Load packages, load wind particles and tracking data, set working directory
+
+```{r}
+
+# Packages
+sapply(c('magrittr', 'data.table', 'foreach', 'windR', 'raster', 'foreach', 'doParallel', 'ggplot2', 'stringr', 'grid', 'rgeos'),
+       function(x) suppressPackageStartupMessages(require(x , character.only = TRUE, quietly = TRUE) ) )
+
+# Projection (polar Lambert azimuthal equal-area with longitude origin 156.65° W)
+PROJ   = '+proj=laea +lat_0=90 +lon_0=-156.653428 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 '
+
+# load particles and calculate the wind speed
+particle_data = system.file('Map', 'Wind_particles.RDS', package = 'windR')
+ob = readRDS(particle_data)
+setkey(ob, datetime_)
+ob[, w_speed := sqrt(u^2 + v^2)]
+
+# Load tracks with wind support
+d = PESA_example_ws
+d[, datetime_ := as.POSIXct(datetime_)]
+
+# Specify directory
+wd = paste0(getwd(), '/temp')
+# wd = tempdir() # temporary in this case (choose yourself)
+
+```
+
+
+## 1. Prepare base map
+
+```{r}
+
+# load wind data
+wind_data = system.file('ERA_Interrim', 'ERA_Interrim_850mb_4_7_June_2014_10km.RDS', package = 'windR')
+w = readRDS(wind_data)
+
+# Get borders of the wind data
+w1 = w[datetime_ == unique(w$datetime_[1])]
+wp = SpatialPoints(cbind(w1$x, w1$y), proj4string = CRS(PROJ))
+datBdry = gEnvelope(wp)
+
+# load high resolution map of area and crop with data boundary
+map_data = system.file('Map', 'Arctic_map.RDS', package = 'windR')
+arctic = readRDS(map_data)
+BRW = arctic %>% gIntersection(datBdry)
+
+# Create simple base map
+b  = datBdry %>% fortify %>% data.table
+bb = gBuffer(datBdry, width = 30000) %>% gEnvelope %>% fortify %>% data.table
+wr = BRW %>% fortify %>% data.table
+
+bm =
+  ggplot() + coord_equal() +
+  labs(x = NULL, y = NULL) +
+  geom_polygon(  data = bb, aes(long, lat), fill = NA, colour = 1, size = .1) +
+  geom_polygon(  data = b,  aes(long, lat), fill = 'dodgerblue4', colour = 1, size = .1) +
+  geom_polygon(  data = wr, aes(long, lat, group = group), fill   = 'steelblue4' , colour = 'white', size = .2) +
+  ggsn::scalebar(data = b,  dist = 100, st.size = 3 ,height = .01) +
+  rangeMapper::theme_rangemap()
+
+print(bm)
+
+
+### add tracks coloured with wind support
+# Wind support scale
+col_Ws = c('firebrick4', 'firebrick3', 'gold', 'springgreen3', 'springgreen4', 'springgreen4')
+
+Ws   = d$Ws %>% na.omit(.)
+Ws_n = (-6 - min(Ws)) / (max(Ws) - min(Ws))
+Ws_0 = (0  - min(Ws)) / (max(Ws) - min(Ws))
+Ws_p = (6  - min(Ws)) / (max(Ws) - min(Ws))
+Ws_m = (max(Ws)  - min(Ws)) / (max(Ws) - min(Ws))
+
+col_WS_v  = c(0, Ws_n, Ws_0, Ws_p, Ws_m, 1)
+
+# plots
+gi =
+  bm +
+  geom_path(data = d, aes(x, y, group = bird_patch_id , colour = Ws), lineend = "round", size = 0.7) +
+  scale_colour_gradientn(colours = col_Ws, values = col_WS_v, limits=c(min(d$Ws, na.rm = T), max(d$Ws, na.rm = T)), name = 'Wind support (m/s)') +
+  theme(legend.direction = 'horizontal', legend.position = c(0.12, 0.13),
+        legend.title = element_text(face = 'bold', color = 'white'),
+        legend.text = element_text(face = 'bold', color = 'white')) +
+  guides(colour = guide_colourbar(title.position = 'top', title.hjust = 0.5, barwidth = 8))
+
+gi
+
+
+# Function to extract legend (from: https://gist.github.com/crsh/be88be19233f1df4542aca900501f0fb#file-gglegend-r-L7)
+# otherwise plots without tracks would have no legend
+
+gglegend <- function(x){
+  tmp <- ggplot_gtable(ggplot_build(x))
+  leg <- which(sapply(tmp$grobs, function(y) y$name) == "guide-box")
+  tmp$grobs[[leg]]
+}
+
+
+legend = gglegend(gi)
+# legend position
+legend$vp$x <- unit(.13, 'npc')
+legend$vp$y <- unit(.08, 'npc')
+
+
+```
+
+
+## 2. Create particle flow animation with tracks coloured with wind support
+
+```{r, eval=FALSE}
+
+# Set time frame and path
+ts = data.table(date = seq('2014-06-05' %>% as.Date %>% as.POSIXct, '2014-06-07' %>% as.Date %>% as.POSIXct, by = '30 mins') )
+setkey(ts, date)
+tmp_path = wd # change path
+ts[, path := paste0(tmp_path, '/', str_pad(1:.N, 4, 'left', pad = '0'), '.png')   ]
+
+# calculate last datetime of each point (to make it disappear at this point)
+d[, lastDate := max(datetime_, na.rm = TRUE), by = bird_patch_id]
+setkey(d,  datetime_)
+
+
+# register parallel computing
+cl = 20 %>% makePSOCKcluster; registerDoParallel(cl)
+
+
+# loop that creates pictures for the animation
+foreach(i = 1:nrow(ts), .packages = c('scales', 'ggplot2', 'lubridate', 'stringr', 'data.table', 'windR', 'grid') ) %dopar% {
+
+  png(filename = ts[i, path], width = 700, height = 700, units = "px", pointsize = 9, bg = "white")
+
+  # add track for particles
+  tail     = 20           # lenght of the running tail
+  tmp_date = ts[i]$date   # current date
+
+  # subset particles
+  tmp_date_sub = seq(tmp_date  - 1800 * tail, tmp_date, by = '30 mins')
+  pi = ob[J(tmp_date_sub), nomatch=0L]
+
+  # add wind particles to base map
+  if (nrow(pi) > 0) pi[, a :=  alphaAlong(datetime_, head = 70, skew = -2), by = particle_id] # alpha
+
+  bm_w = bm +
+    geom_path(data = pi, aes(x = x, y = y, group = particle_id, color = w_speed), alpha = pi$a) +
+     scale_colour_gradientn(colours = col_Ws, values = col_WS_v, 
+                            limits = c(min(d$Ws, na.rm = T), max(c(d$Ws, ob$w_speed), na.rm = T)), name = 'Wind support (m/s)') +
+    annotate('text', x = 0, y = -1730000,
+             label = paste0('2014 ', format(tmp_date, "%B %d %H:00")),
+             color = 'white', size = 8, fontface = 1) + # size = 5 normal resolution, 8 for high
+    theme(legend.position = 'none',
+          plot.margin = unit(c(-1, -1, -1, -1), 'cm'))
+
+  # add bird tracks
+  ki = d[datetime_ <= tmp_date & tmp_date < lastDate]
+
+  if (nrow(ki) > 0) ki[, a:=  alphaAlong(datetime_, head = 70, skew = -0.1) ,     by = bird_patch_id] # alpha
+  if (nrow(ki) > 0) ki[, s:=  sizeAlong( datetime_, head = 70, to = c(0.1,2.5)) , by = bird_patch_id] # size
+
+  gi =
+    bm_w +
+    geom_path(data = ki, aes(x, y, group = bird_patch_id , colour = Ws), lineend = "round",  alpha = ki$a, size = ki$s)
+
+
+  if (nrow(ki) == 0) {
+    print(bm_w); grid.draw(legend)
+  } else {
+    print(gi); grid.draw(legend)
+  }
+
+  dev.off()
+
+}
+
+
+
+stopCluster(cl)
+registerDoSEQ()
+
+
+# merge png into animation using ffmpeg (or with a different programm)
+
+setwd(tmp_path)
+system("ffmpeg -framerate 8 -pattern_type glob -i '*.png' -y -c:v libx264 -profile:v high -crf 1 -pix_fmt yuv420p Wind_particles_bird_tracks_animation.mov")
+
+```
+
+
+
+```{r}
+sessionInfo()
+```
