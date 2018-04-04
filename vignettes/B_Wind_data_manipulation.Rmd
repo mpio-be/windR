@@ -52,11 +52,15 @@ wd = tempdir() # temporary in this case (choose yourself)
 
 ## 1. Load & crop the NetCDF files (v & u surface wind) and save them as tif
 
-```{r, eval=FALSE}
+```{r}
 
 # run for both u- and v-wind component
-var = 'u'
-var = 'v'
+loop = c('u', 'v')
+
+
+for(i in loop){
+  
+var = i
 
 # assign path to NetCDF (data within windR package or change to your downladed file)
 netcdf_ = system.file('/ERA_Interrim', 'ERA_Interrim_850mb_4_7_June_2014.nc', package = 'windR')
@@ -89,18 +93,21 @@ plot(tmp4[[1]])
 
 # write raster
 writeRaster(tmp4, filename = paste0(wd, '/ERA_Interim_', var, '_wind_850mb_2014.tif'), overwrite=TRUE)
-
+}
 
 ```
 
 
 ## 2. Bicubic interpolation to get a higher resolution (10 km)
 
-```{r, eval=FALSE}
+```{r}
 
 # run for both u- and v-wind component
-var = 'u'
-var = 'v'
+loop = c('u', 'v')
+
+for(i in loop){
+  
+var = i
 
 s = paste0(wd, '/ERA_Interim_', var, '_wind_850mb_2014.tif')
 t = paste0(wd, '/ERA_Interim_', var, '_wind_850mb_2014_10km.tif')  # name of the output file
@@ -114,7 +121,7 @@ plot(r1[[1]])
 
 r2 = brick(paste0(wd, '/ERA_Interim_', var, '_wind_850mb_2014_10km.tif'))
 plot(r2[[1]])
-
+}
 
 ```
 
