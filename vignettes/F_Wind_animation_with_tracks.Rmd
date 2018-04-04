@@ -26,7 +26,7 @@ This file describes the final step (based on vignettes 1 to 4) of creating an an
 
 ## 1. Load packages, load wind particles and tracking data, set working directory
 
-```{r, eval=FALSE}
+```{r}
 
 # Packages
 sapply(c('magrittr', 'data.table', 'foreach', 'windR', 'raster', 'foreach', 'doParallel', 'ggplot2', 'stringr', 'grid', 'rgeos'),
@@ -54,7 +54,7 @@ wd = paste0(getwd(), '/temp')
 
 ## 1. Prepare base map
 
-```{r, eval=FALSE}
+```{r}
 
 # load wind data
 wind_data = system.file('ERA_Interrim', 'ERA_Interrim_850mb_4_7_June_2014_10km.RDS', package = 'windR')

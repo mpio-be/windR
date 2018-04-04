@@ -28,7 +28,7 @@ This file describes how to connect tracking data with wind data, calculate the w
 
 ## Load packages, tracking data and set working directory
 
-```{r, eval=FALSE}
+```{r}
 # Packages
 sapply(c('magrittr', 'data.table', 'foreach', 'windR', 'raster', 'foreach', 'doParallel', 'ggplot2', 'stringr'),
        function(x) suppressPackageStartupMessages(require(x , character.only = TRUE, quietly = TRUE) ) )
@@ -49,7 +49,7 @@ wd = paste0(getwd(), '/temp')
 
 ## 1. Connect tracks with wind data
 
-```{r, eval=FALSE}
+```{r}
 
 # load wind data
 wind_data = system.file('ERA_Interrim', 'ERA_Interrim_850mb_4_7_June_2014_10km.RDS', package = 'windR')
@@ -75,7 +75,7 @@ d[, c('u', 'v') := getWind(x, y, w = w[J(w_date), nomatch=0L], PROJ), by = id]
 
 ## 2. Calculate wind support & cross wind
 
-```{r, eval=FALSE}
+```{r}
 
 # distance to next point
 d[, x2   := data.table::shift(x, type = 'lead'), by = bird_patch_id]
@@ -111,7 +111,7 @@ d[, Wc := as.numeric(windSupport(g_direction = g_direction, g_speed = g_speed, w
 
 ## 3. Plot tracks colored with wind support
 
-```{r, eval=FALSE}
+```{r}
 
 # Get borders of the wind data
 w1 = w[datetime_ == unique(w$datetime_[1])]
