@@ -25,7 +25,8 @@ Suggests:
     testthat,
     reticulate,
     grid,
-    stringr
+    stringr,
+    roxygen2
 License: GPL (>= 3) + file LICENSE
 Encoding: UTF-8
 LazyData: true

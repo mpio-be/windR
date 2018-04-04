@@ -28,6 +28,7 @@ r_binary_packages:
   - gdalUtils
   - covr
   - ncdf4
+  - roxygen2
 
 after_success:
   - Rscript -e 'devtools::install();devtools::test()'
