@@ -27,7 +27,7 @@ This file describes the process from the downloaded NetCDF file, to a raster bri
 
 ## Load packages, define study area and set working directory
 
-```{r, eval=FALSE}
+```{r}
 # Clear working enviroment
 rm(list = ls())
 
