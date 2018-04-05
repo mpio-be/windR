@@ -70,7 +70,7 @@ for(i in loop){
   
   # get dates
   dd = data.table(rastNam = names(tmp))
-  dd[, datetime_ := substring(rastNam, 2, 14) %>% strptime(., '%Y.%m.%d.%H') %>% as.POSIXct]
+  dd[, datetime_ := substring(rastNam, 2, 14) %>% as.POSIXct(., format = '%Y.%m.%d.%H') ]
   
   write.table(dd, paste0(wd, '/ERA_Interrim_850mb_4_7_June_2014_names.txt'), sep = ';', row.names = FALSE)
   
