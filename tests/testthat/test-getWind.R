@@ -30,13 +30,13 @@ w = w[datetime_ == as.POSIXct('2014-06-06 23:00:00 CEST'), list(x, y, u, v)]
 
 
 # complete function working
-gw = getWind(x = x, y = y, w = w, PROJ)
-
-test_that('getWind is list', {
-
-  expect_type( gw,  'list' )
-
-})
+# gw = getWind(x = x, y = y, w = w, PROJ)
+#
+# test_that('getWind is list', {
+#
+#   expect_type( gw,  'list' )
+#
+# })
 
 
 # steps working
