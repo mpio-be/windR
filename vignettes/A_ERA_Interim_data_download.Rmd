@@ -30,8 +30,9 @@ Adapt the script to your requirements.
 
 The code below initiates the data processing. The data can then be downloaded here: http://apps.ecmwf.int/webmars/joblist/
 
+Copy this chunk into python (e.g. spyder) and run it there.
 
-```{python, eval = FALSE}
+```{python, eval=FALSE}
 
 #!/usr/bin/env python
 from ecmwfapi import ECMWFDataServer
@@ -41,7 +42,7 @@ server.retrieve({
     "class": "ei",
     "dataset": "interim",
     # specify the date range
-    "date": "2014-06-03/to/2014-06-08",
+    "date": "2014-06-04/to/2014-06-07",
     "expver": "1",
     # specify resolution (0.75 is the one on which the model is created, interpolated data are now available)
     "grid": "0.75/0.75",
@@ -56,7 +57,7 @@ server.retrieve({
     "time": "00:00:00/06:00:00/12:00:00/18:00:00",
     "type": "an",
     # specify the area (Nothern Hemipshere in this case)
-    "area": "87.5/60/30/360",
+    "area": "87.5/67/0/360",
     "format" : "netcdf",
     "target": "ERA_Interrim_850mb_4_7_June_2014",
 })
