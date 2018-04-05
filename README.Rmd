@@ -21,7 +21,8 @@ This package is still in pre-release alpha version. Work in progress. Use at own
 ## To do
 
    * make vignettes travis proof
-   * make getWind function testthat proof
+   * check getWind function (make it testthat proof & faster with raster)
+   * check if there is a way to make the particle creation faster
 
 ## WindR
 

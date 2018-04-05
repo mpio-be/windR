@@ -11,7 +11,8 @@ To do
 -----
 
 -   make vignettes travis proof
--   make getWind function testthat proof
+-   check getWind function (make it testthat proof & faster with raster)
+-   check if there is a way to make the particle creation faster
 
 WindR
 -----
@@ -47,6 +48,16 @@ The fifth vignette [F\_Wind\_animation\_with\_tracks](insert%20link%20to%20html)
 -   Find the optimal spatial and temporal scale fitting to your tracking data and question.
 -   Have fun!
 
+### Installation
+
+``` r
+install.packages('devtools')
+devtools::install_github('mpio-be/windR')
+
+# install with vignettes
+devtools::install_github('mpio-be/windR', build_vignettes = TRUE)
+```
+
 #### Limitations
 
 All analyses are constrained by the spatio-temporal resolution of the used wind and tracking data.
@@ -56,10 +67,3 @@ All analyses are constrained by the spatio-temporal resolution of the used wind 
 This project was inspired by the awesome [earth](https://earth.nullschool.net/) project from [Cameron Beccario](https://github.com/cambecc), which was itself inspired by the [wind map](http://hint.fm/wind) project from [HINT.FM](http://hint.fm/).
 
 We saw these particle flow maps of the wind and wanted to see our bird tracks within such a visualization. Both `earth` and `wind map` use fixed times of global wind data sets (one wind layer). Particles are randomly thrown in the map and move based on the wind speed and direction. To plot our bird tracks within the wind, we needed to find a way to continuously change the wind data with the time that the birds moved. We did so by always using the closest wind data in time (continuously changing the wind layers), resulting in a dynamic flow of the wind particles changing over time. We did our best to make this workflow fast in R, but know that using other programming languages (i.e. JavaScript) could improve the speed of these analyses. We are happy if somebody wants to improve (speed-up) this script or translates parts (esp. the particle creation) into another programming language.
-
-### Installation
-
-``` r
-install.packages("devtools")
-devtools::install_github("mpio-be/windR")
-```
