@@ -3,9 +3,9 @@ context('getWind')
 # warning because of w[, .(x, y, u, v)] in rasterFromXYZ, but I don't know why,
 # something to do with: http://lists.r-forge.r-project.org/pipermail/datatable-commits/2014-May/001255.html
 
-require(data.table)
 require(magrittr)
-require(raster)
+require(windR)
+
 assignInNamespace('cedta.override', c(data.table:::cedta.override,'windR'), 'data.table')
 
 # Example data
