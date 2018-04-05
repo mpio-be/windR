@@ -26,7 +26,7 @@ y_ext = seq(ext[3], ext[4])
 x = sample(x_ext, 1, replace=TRUE)
 y = sample(y_ext, 1, replace=TRUE)
 
-w = w[datetime_ == as.POSIXct('2014-06-06 23:00:00 CEST'), .(x, y, u, v)]
+w = w[datetime_ == as.POSIXct('2014-06-06 23:00:00 CEST'), list(x, y, u, v)]
 
 
 # complete function working
@@ -53,7 +53,7 @@ test_that('getWind parts are what they should be', {
 })
 
 
-# Warning has something to do with this:
+# Warning has something to do with this (why the faster raster version is giving a warning):
 # > wpx = raster::rasterFromXYZ(w, crs = PROJ)
 # Error in if (xn == xx) { : missing value where TRUE/FALSE needed
 #   In addition: Warning messages:
