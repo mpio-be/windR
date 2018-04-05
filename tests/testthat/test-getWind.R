@@ -40,9 +40,9 @@ test_that('getWind is list', {
 
 
 # steps working
-wpx = sp::SpatialPixelsDataFrame(w[, list(x,y)], w[, list(u, v)], proj4string = CRS(PROJ))
+wpx = sp::SpatialPixelsDataFrame(w[, list(x,y)], w[, list(u, v)], proj4string = sp::CRS(PROJ))
 Pxy = sp::SpatialPoints(cbind(x, y), proj4string = sp::CRS(PROJ))
-o   = sp::over(SpatialPoints(cbind(x, y), proj4string = CRS(PROJ)), wpx)
+o   = sp::over(sp::SpatialPoints(cbind(x, y), proj4string = sp::CRS(PROJ)), wpx)
 
 test_that('getWind parts are what they should be', {
 
