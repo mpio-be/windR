@@ -1,3 +1,6 @@
+globalVariables(c('u', 'v'))
+
+
 #' Connect points to closest wind data in space and time
 #'
 #' This function takes given points (and their datetime) and connects them with the closest
@@ -48,7 +51,7 @@
 #'
 #' # Assign closest wind data
 #' d[, c('u', 'v') := getWind(x = x, y = y, w = w[J(w_date), nomatch=0L], PROJ), by = point_id]
-globalVariables(c('u', 'v'))
+
 
 getWind = function(x, y , w, PROJ) {
 
