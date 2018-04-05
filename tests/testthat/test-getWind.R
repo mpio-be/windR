@@ -26,31 +26,31 @@ y_ext = seq(ext[3], ext[4])
 x = sample(x_ext, 1, replace=TRUE)
 y = sample(y_ext, 1, replace=TRUE)
 
-w = w[datetime_ == as.POSIXct('2014-06-06 23:00:00 CEST'), list(x, y, u, v)]
-
-
-# complete function working
-gw = getWind(x = x, y = y, w = w, PROJ)
-
-test_that('getWind is list', {
-
-  expect_type( gw,  'list' )
-
-})
-
-
-# steps working
-wpx = sp::SpatialPixelsDataFrame(w[, list(x,y)], w[, list(u, v)], proj4string = sp::CRS(PROJ))
-Pxy = sp::SpatialPoints(cbind(x, y), proj4string = sp::CRS(PROJ))
-o   = sp::over(sp::SpatialPoints(cbind(x, y), proj4string = sp::CRS(PROJ)), wpx)
-
-test_that('getWind parts are what they should be', {
-
-  expect_s4_class( wpx, 'SpatialPixelsDataFrame' )
-  expect_s4_class( Pxy, 'SpatialPoints' )
-  expect_type( o, 'list' )
-
-})
+# w = w[datetime_ == as.POSIXct('2014-06-06 23:00:00 CEST'), list(x, y, u, v)]
+#
+#
+# # complete function working
+# gw = getWind(x = x, y = y, w = w, PROJ)
+#
+# test_that('getWind is list', {
+#
+#   expect_type( gw,  'list' )
+#
+# })
+#
+#
+# # steps working
+# wpx = sp::SpatialPixelsDataFrame(w[, list(x,y)], w[, list(u, v)], proj4string = sp::CRS(PROJ))
+# Pxy = sp::SpatialPoints(cbind(x, y), proj4string = sp::CRS(PROJ))
+# o   = sp::over(sp::SpatialPoints(cbind(x, y), proj4string = sp::CRS(PROJ)), wpx)
+#
+# test_that('getWind parts are what they should be', {
+#
+#   expect_s4_class( wpx, 'SpatialPixelsDataFrame' )
+#   expect_s4_class( Pxy, 'SpatialPoints' )
+#   expect_type( o, 'list' )
+#
+# })
 
 
 # Warning has something to do with this (why the faster raster version is giving a warning):
