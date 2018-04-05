@@ -32,7 +32,7 @@ This file describes the process from the downloaded NetCDF file, to a raster bri
 rm(list = ls())
 
 # Packages
-sapply(c('rgdal', 'gdalUtils', 'raster', 'data.table', 'magrittr', 'sp', 'rgeos', 'raster'),
+sapply(c('rgdal', 'gdalUtils', 'raster', 'data.table', 'magrittr', 'sp', 'rgeos', 'raster', 'foreach'),
        function(x) suppressPackageStartupMessages(require(x , character.only = TRUE, quietly = TRUE) ) )
 
 # Projections
@@ -89,7 +89,7 @@ for(i in loop){
   
   tmp4 = crop(tmp3, datBdry)
   
-  plot(tmp4[[1]])
+  # plot(tmp4[[1]])
   
   # write raster
   writeRaster(tmp4, filename = paste0(wd, '/ERA_Interim_', var, '_wind_850mb_2014.tif'), overwrite=TRUE)
@@ -131,7 +131,7 @@ for(i in loop){
 
 ## 3. Transform tif in data.table and merge u and v component
 
-```{r, eval=FALSE}
+```{r}
 
 # Load data and assign datetime
 dd = read.table(paste0(wd, '/ERA_Interrim_850mb_4_7_June_2014_names.txt'), stringsAsFactors = FALSE, sep = ';', header = TRUE) %>% data.table
