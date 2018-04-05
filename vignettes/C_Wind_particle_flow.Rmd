@@ -166,7 +166,7 @@ o = foreach(i = 1:NP, .packages = c('data.table','rgdal', 'raster', 'magrittr', 
 
 ob = rbindlist(o)
 
-saveRDS(ob, paste0(wd, '/Wind_particles.RDS'))
+saveRDS(ob, paste0(wd, 'Wind_particles.RDS'))
 
 ```
 

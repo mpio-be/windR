@@ -72,7 +72,7 @@ for(i in loop){
   dd = data.table(rastNam = names(tmp))
   dd[, datetime_ := substring(rastNam, 2, 14) %>% as.POSIXct(., format = '%Y.%m.%d.%H') ]
   
-  write.table(dd, paste0(wd, '/ERA_Interrim_850mb_4_7_June_2014_names.txt'), sep = ';', row.names = FALSE)
+  write.table(dd, paste0(wd, 'ERA_Interrim_850mb_4_7_June_2014_names.txt'), sep = ';', row.names = FALSE)
   
   # change y from 0 to 360 tp -180 to 180
   tmp = rotate(tmp)
@@ -92,7 +92,7 @@ for(i in loop){
   # plot(tmp4[[1]])
   
   # write raster
-  writeRaster(tmp4, filename = paste0(wd, '/ERA_Interim_', var, '_wind_850mb_2014.tif'), overwrite=TRUE)
+  writeRaster(tmp4, filename = paste0(wd, 'ERA_Interim_', var, '_wind_850mb_2014.tif'), overwrite=TRUE)
 
 }
 
@@ -110,17 +110,17 @@ for(i in loop){
   
   var = i
   
-  s = paste0(wd, '/ERA_Interim_', var, '_wind_850mb_2014.tif')
-  t = paste0(wd, '/ERA_Interim_', var, '_wind_850mb_2014_10km.tif')  # name of the output file
+  s = paste0(wd, 'ERA_Interim_', var, '_wind_850mb_2014.tif')
+  t = paste0(wd, 'ERA_Interim_', var, '_wind_850mb_2014_10km.tif')  # name of the output file
   
   # gdalinfo(s) # check file
   gdalwarp(srcfile = s, dstfile= t,  r = "cubic", tr = c(10000,10000) ) # does a cubic interpolation to a 10 km resolution
   
   # check interpolated data
-  r1 = brick(paste0(wd, '/ERA_Interim_', var, '_wind_850mb_2014.tif'))
+  r1 = brick(paste0(wd, 'ERA_Interim_', var, '_wind_850mb_2014.tif'))
   plot(r1[[1]])
   
-  r2 = brick(paste0(wd, '/ERA_Interim_', var, '_wind_850mb_2014_10km.tif'))
+  r2 = brick(paste0(wd, 'ERA_Interim_', var, '_wind_850mb_2014_10km.tif'))
   plot(r2[[1]])
 
 }
@@ -134,13 +134,13 @@ for(i in loop){
 ```{r}
 
 # Load data and assign datetime
-dd = read.table(paste0(wd, '/ERA_Interrim_850mb_4_7_June_2014_names.txt'), stringsAsFactors = FALSE, sep = ';', header = TRUE) %>% data.table
+dd = read.table(paste0(wd, 'ERA_Interrim_850mb_4_7_June_2014_names.txt'), stringsAsFactors = FALSE, sep = ';', header = TRUE) %>% data.table
 dd[, datetime_ := as.POSIXct(datetime_) ]
 
-u = brick(paste0(wd, '/ERA_Interim_u_wind_850mb_2014_10km.tif'))
+u = brick(paste0(wd, 'ERA_Interim_u_wind_850mb_2014_10km.tif'))
 names(u) = dd$rastNam
 
-v = brick(paste0(wd, '/ERA_Interim_v_wind_850mb_2014_10km.tif'))
+v = brick(paste0(wd, 'ERA_Interim_v_wind_850mb_2014_10km.tif'))
 names(v) = dd$rastNam
 
 
@@ -188,7 +188,7 @@ w = rbindlist(o)
 w[, datetime_ := datetime_ - 60*60*8]
 
 
-saveRDS(w, paste0(wd, '/ERA_Interrim_850mb_4_7_June_2014_10km.RDS'))
+saveRDS(w, paste0(wd, 'ERA_Interrim_850mb_4_7_June_2014_10km.RDS'))
 
 ```
 
