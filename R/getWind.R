@@ -55,7 +55,7 @@ globalVariables(c('u', 'v'))
 
 getWind = function(x, y , w, PROJ) {
 
-  wpx = sp::SpatialPixelsDataFrame(w[, .(x,y)], w[, .(u, v)], proj4string = CRS(PROJ))
+  wpx = sp::SpatialPixelsDataFrame(w[, list(x,y)], w[, list(u, v)], proj4string = CRS(PROJ))
   Pxy = SpatialPoints(cbind(x, y), proj4string = crs(PROJ))
   o   = sp::over(SpatialPoints(cbind(x, y), proj4string = CRS(PROJ)), wpx)
 
