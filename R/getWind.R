@@ -53,11 +53,15 @@ globalVariables(c('u', 'v'))
 getWind = function(x, y , w, PROJ) {
 
   wpx = sp::SpatialPixelsDataFrame(w[, .(x,y)], w[, .(u, v)], proj4string = CRS(PROJ))
-  # wpx = raster::rasterFromXYZ(w[, list(x, y, u, v)], crs = PROJ) # a bit faster but with warning
   Pxy = SpatialPoints(cbind(x, y), proj4string = crs(PROJ))
-  o   = extract(wpx, Pxy)
+  o   = sp::over(SpatialPoints(cbind(x, y), proj4string = CRS(PROJ)), wpx)
 
-  list(o[1], o[2])
+  list(o$u[1], o$v[1])
+
+  # wpx = raster::rasterFromXYZ(w[, list(x, y, u, v)], crs = PROJ) # a bit faster but with warning
+  # Pxy = SpatialPoints(cbind(x, y), proj4string = crs(PROJ))
+  # o   = extract(wpx, Pxy)
+  # list(o[1], o[2])
 
 }
 
