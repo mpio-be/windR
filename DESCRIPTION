@@ -27,7 +27,8 @@ Suggests:
     grid,
     stringr,
     roxygen2,
-    ggsn
+    ggsn,
+    rangeMapper
 License: GPL (>= 3) + file LICENSE
 Encoding: UTF-8
 LazyData: true
