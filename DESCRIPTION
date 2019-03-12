@@ -3,10 +3,10 @@ Title: Analysis of tracking data in relation to wind
 Version: 0.0.9
 Authors@R: c( person("Johannes", "Krietsch", email = "jkrietsch@orn.mpg.de", role = c("cre", "aut")),
               person("Mihai", "Valcu",       email = "valcu@orn.mpg.de",     role = "aut") )
-Description: What the package does (one paragraph).
+Description: windR is a R package to connect animal tracking data with wind data (or sea current data) and allows to visualize animal movements within the flow of the medium that they moved in.
 Depends: 
     R (>= 3.4.1), 
-    data.table, 
+    data.table
 Imports:
     scales,
     sp,
@@ -32,5 +32,5 @@ Suggests:
 License: GPL (>= 3) + file LICENSE
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1.9000
 VignetteBuilder: knitr
