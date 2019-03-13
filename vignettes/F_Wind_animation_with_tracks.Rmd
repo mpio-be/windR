@@ -80,7 +80,7 @@ bm =
   geom_polygon(  data = bb, aes(long, lat), fill = NA, colour = 1, size = .1) +
   geom_polygon(  data = b,  aes(long, lat), fill = 'dodgerblue4', colour = 1, size = .1) +
   geom_polygon(  data = wr, aes(long, lat, group = group), fill   = 'steelblue4' , colour = 'white', size = .2) +
-  ggsn::scalebar(data = b,  dist = 100, st.size = 3 ,height = .01) +
+  # ggsn::scalebar(data = b,  dist = 100, st.size = 3 ,height = .01) +
   rangeMapper::theme_rangemap()
 
 print(bm)

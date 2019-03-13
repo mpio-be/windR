@@ -1,34 +1,10 @@
----
-title: "Wind support and track animation"
-author: "Johannes Krietsch"
-date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{Vignette Title}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
----
-
-```{r setup, include = FALSE}
+## ----setup, include = FALSE----------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-```
 
-This file describes how to connect tracking data with wind data, calculate the wind support and cross wind, plot these data with a map and as a comet plot animation. 
-
-**Summary**
-
-1. Connect tracks with wind data
-2. Calculate wind support & cross wind
-3. Plot tracks colored with wind support
-4. Comet plot animation of tracks
-
-
-## Load packages, tracking data and set working directory
-
-```{r}
+## ------------------------------------------------------------------------
 # Packages
 sapply(c('magrittr', 'data.table', 'foreach', 'windR', 'raster', 'foreach', 'doParallel', 'ggplot2', 'stringr', 'rgeos'),
        function(x) suppressPackageStartupMessages(require(x , character.only = TRUE, quietly = TRUE) ) )
@@ -44,12 +20,8 @@ d[, datetime_ := as.POSIXct(datetime_)]
 wd = paste0(getwd(), '/temp')
 # wd = tempdir() # temporary in this case (choose yourself)
 
-```
 
-
-## 1. Connect tracks with wind data
-
-```{r}
+## ------------------------------------------------------------------------
 
 # load wind data
 wind_data = system.file('ERA_Interrim', 'ERA_Interrim_850mb_4_7_June_2014_10km.RDS', package = 'windR')
@@ -70,12 +42,8 @@ setkey(w, datetime_)
 d[, c('u', 'v') := getWind(x, y, w = w[J(w_date), nomatch=0L], PROJ), by = id]
 
 
-```
 
-
-## 2. Calculate wind support & cross wind
-
-```{r}
+## ------------------------------------------------------------------------
 
 # distance to next point
 d[, x2   := data.table::shift(x, type = 'lead'), by = bird_patch_id]
@@ -106,12 +74,8 @@ d[, Wc := as.numeric(windSupport(g_direction = g_direction, g_speed = g_speed, w
   by = row.names(d)]
 
 
-```
 
-
-## 3. Plot tracks colored with wind support
-
-```{r}
+## ------------------------------------------------------------------------
 
 # Get borders of the wind data
 w1 = w[datetime_ == unique(w$datetime_[1])]
@@ -181,83 +145,75 @@ legend$vp$y <- unit(.08, 'npc')
 
 
 
-```
 
+## ---- eval=FALSE---------------------------------------------------------
+#  
+#  # Set time frame and path
+#  ts = data.table(date = seq('2014-06-05' %>% as.Date %>% as.POSIXct, '2014-06-07' %>% as.Date %>% as.POSIXct, by = '30 mins') )
+#  setkey(ts, date)
+#  tmp_path = wd # change path
+#  ts[, path := paste0(tmp_path, '/', str_pad(1:.N, 4, 'left', pad = '0'), '.png')   ]
+#  
+#  # calculate last datetime of each point (to make it disappear at this point)
+#  d[, lastDate := max(datetime_, na.rm = TRUE), by = bird_patch_id]
+#  setkey(d,  datetime_)
+#  
+#  
+#  # register parallel computing
+#  cl = 20 %>% makePSOCKcluster; registerDoParallel(cl)
+#  
+#  
+#  # loop that creates pictures for the animation
+#  foreach(i = 1:nrow(ts), .packages = c('scales', 'ggplot2', 'lubridate', 'stringr', 'data.table', 'windR', 'grid') ) %dopar% {
+#  
+#    png(filename = ts[i, path], width = 700, height = 700, units = "px", pointsize = 9, bg = "white")
+#  
+#    tmp_date = ts[i]$date   # current date
+#  
+#    # add time stamp to base map
+#    bm_w = bm +
+#      scale_colour_gradientn(colours = col_Ws, values = col_WS_v, limits=c(min(d$Ws, na.rm = T), max(d$Ws, na.rm = T)), name = 'Wind support (m/s)') +
+#      annotate('text', x = 0, y = -1730000,
+#               label = paste0('2014 ', format(tmp_date, "%B %d %H:00")),
+#               color = 'white', size = 8, fontface = 1) + # size = 5 normal resolution, 8 for high
+#      theme(legend.position = 'none',
+#            plot.margin = unit(c(-1, -1, -1, -1), 'cm'))
+#  
+#    # subset bird tracks
+#    ki = d[datetime_ <= tmp_date & tmp_date < lastDate]
+#  
+#    if (nrow(ki) > 0) ki[, a:=  alphaAlong(datetime_, head = 70, skew = -0.1) ,     by = bird_patch_id] # alpha
+#    if (nrow(ki) > 0) ki[, s:=  sizeAlong( datetime_, head = 70, to = c(0.1,2.5)) , by = bird_patch_id] # size
+#  
+#    gi =
+#      bm_w +
+#      geom_path(data = ki, aes(x, y, group = bird_patch_id , colour = Ws), lineend = "round",  alpha = ki$a, size = ki$s)
+#  
+#  
+#    if (nrow(ki) == 0) {
+#      print(bm_w); grid.draw(legend)
+#    } else {
+#      print(gi); grid.draw(legend)
+#    }
+#  
+#    dev.off()
+#  
+#  }
+#  
+#  
+#  
+#  stopCluster(cl)
+#  registerDoSEQ()
+#  
+#  
+#  # merge png into animation using ffmpeg (or with a different programm)
+#  
+#  setwd(tmp_path)
+#  system("ffmpeg -framerate 6 -pattern_type glob -i '*.png' -y -c:v libx264 -profile:v high -crf 1 -pix_fmt yuv420p Bird_tracks_animation.mov")
+#  
+#  
+#  
 
-## 4. Comet plot animation of tracks
-
-```{r, eval=FALSE}
-
-# Set time frame and path
-ts = data.table(date = seq('2014-06-05' %>% as.Date %>% as.POSIXct, '2014-06-07' %>% as.Date %>% as.POSIXct, by = '30 mins') )
-setkey(ts, date)
-tmp_path = wd # change path
-ts[, path := paste0(tmp_path, '/', str_pad(1:.N, 4, 'left', pad = '0'), '.png')   ]
-
-# calculate last datetime of each point (to make it disappear at this point)
-d[, lastDate := max(datetime_, na.rm = TRUE), by = bird_patch_id]
-setkey(d,  datetime_)
-
-
-# register parallel computing
-cl = 20 %>% makePSOCKcluster; registerDoParallel(cl)
-
-
-# loop that creates pictures for the animation
-foreach(i = 1:nrow(ts), .packages = c('scales', 'ggplot2', 'lubridate', 'stringr', 'data.table', 'windR', 'grid') ) %dopar% {
-
-  png(filename = ts[i, path], width = 700, height = 700, units = "px", pointsize = 9, bg = "white")
-
-  tmp_date = ts[i]$date   # current date
-
-  # add time stamp to base map
-  bm_w = bm +
-    scale_colour_gradientn(colours = col_Ws, values = col_WS_v, limits=c(min(d$Ws, na.rm = T), max(d$Ws, na.rm = T)), name = 'Wind support (m/s)') +
-    annotate('text', x = 0, y = -1730000,
-             label = paste0('2014 ', format(tmp_date, "%B %d %H:00")),
-             color = 'white', size = 8, fontface = 1) + # size = 5 normal resolution, 8 for high
-    theme(legend.position = 'none',
-          plot.margin = unit(c(-1, -1, -1, -1), 'cm'))
-
-  # subset bird tracks
-  ki = d[datetime_ <= tmp_date & tmp_date < lastDate]
-
-  if (nrow(ki) > 0) ki[, a:=  alphaAlong(datetime_, head = 70, skew = -0.1) ,     by = bird_patch_id] # alpha
-  if (nrow(ki) > 0) ki[, s:=  sizeAlong( datetime_, head = 70, to = c(0.1,2.5)) , by = bird_patch_id] # size
-
-  gi =
-    bm_w +
-    geom_path(data = ki, aes(x, y, group = bird_patch_id , colour = Ws), lineend = "round",  alpha = ki$a, size = ki$s)
-
-
-  if (nrow(ki) == 0) {
-    print(bm_w); grid.draw(legend)
-  } else {
-    print(gi); grid.draw(legend)
-  }
-
-  dev.off()
-
-}
-
-
-
-stopCluster(cl)
-registerDoSEQ()
-
-
-# merge png into animation using ffmpeg (or with a different programm)
-
-setwd(tmp_path)
-system("ffmpeg -framerate 6 -pattern_type glob -i '*.png' -y -c:v libx264 -profile:v high -crf 1 -pix_fmt yuv420p Bird_tracks_animation.mov")
-
-
-
-```
-
-
-
-```{r}
+## ------------------------------------------------------------------------
 sessionInfo()
-```
 

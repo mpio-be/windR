@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Johannes Krietsch" />
+
+<meta name="date" content="2019-03-13" />
+
+<title>Wind animation with tracks</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Wind animation with tracks</h1>
+<h4 class="author"><em>Johannes Krietsch</em></h4>
+<h4 class="date"><em>2019-03-13</em></h4>
+
+
+
+<p>This file describes the final step (based on vignettes 1 to 4) of creating an animation of the wind as particle flow together with bird tracks which are coloured with the wind support that they experienced flying in these wind conditions.</p>
+<p><strong>Summary</strong></p>
+<ol style="list-style-type: decimal">
+<li>Prepare base map</li>
+<li>Create particle flow animation with tracks coloured with wind support</li>
+</ol>
+<div id="load-packages-load-wind-particles-and-tracking-data-set-working-directory" class="section level2">
+<h2>1. Load packages, load wind particles and tracking data, set working directory</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
+<span class="co"># Packages</span>
+<span class="kw">sapply</span>(<span class="kw">c</span>(<span class="st">'magrittr'</span>, <span class="st">'data.table'</span>, <span class="st">'foreach'</span>, <span class="st">'windR'</span>, <span class="st">'raster'</span>, <span class="st">'foreach'</span>, <span class="st">'doParallel'</span>, <span class="st">'ggplot2'</span>, <span class="st">'stringr'</span>, <span class="st">'grid'</span>, <span class="st">'rgeos'</span>),
+       <span class="cf">function</span>(x) <span class="kw">suppressPackageStartupMessages</span>(<span class="kw">require</span>(x , <span class="dt">character.only =</span> <span class="ot">TRUE</span>, <span class="dt">quietly =</span> <span class="ot">TRUE</span>) ) )
+<span class="co">#&gt;   magrittr data.table    foreach      windR     raster    foreach </span>
+<span class="co">#&gt;       TRUE       TRUE       TRUE       TRUE       TRUE       TRUE </span>
+<span class="co">#&gt; doParallel    ggplot2    stringr       grid      rgeos </span>
+<span class="co">#&gt;       TRUE       TRUE       TRUE       TRUE       TRUE</span>
+
+<span class="co"># Projection (polar Lambert azimuthal equal-area with longitude origin 156.65° W)</span>
+PROJ   =<span class="st"> '+proj=laea +lat_0=90 +lon_0=-156.653428 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 '</span>
+
+<span class="co"># load particles and calculate the wind speed</span>
+particle_data =<span class="st"> </span><span class="kw">system.file</span>(<span class="st">'Map'</span>, <span class="st">'Wind_particles.RDS'</span>, <span class="dt">package =</span> <span class="st">'windR'</span>)
+ob =<span class="st"> </span><span class="kw">readRDS</span>(particle_data)
+<span class="kw">setkey</span>(ob, datetime_)
+ob[, w_speed <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">sqrt</span>(u<span class="op">^</span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span>v<span class="op">^</span><span class="dv">2</span>)]
+
+<span class="co"># Load tracks with wind support</span>
+d =<span class="st"> </span>PESA_example_ws
+d[, datetime_ <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">as.POSIXct</span>(datetime_)]
+
+<span class="co"># Specify directory</span>
+wd =<span class="st"> </span><span class="kw">paste0</span>(<span class="kw">getwd</span>(), <span class="st">'/temp'</span>)
+<span class="co"># wd = tempdir() # temporary in this case (choose yourself)</span></code></pre></div>
+</div>
+<div id="prepare-base-map" class="section level2">
+<h2>1. Prepare base map</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
+<span class="co"># load wind data</span>
+wind_data =<span class="st"> </span><span class="kw">system.file</span>(<span class="st">'ERA_Interrim'</span>, <span class="st">'ERA_Interrim_850mb_4_7_June_2014_10km.RDS'</span>, <span class="dt">package =</span> <span class="st">'windR'</span>)
+w =<span class="st"> </span><span class="kw">readRDS</span>(wind_data)
+
+<span class="co"># Get borders of the wind data</span>
+w1 =<span class="st"> </span>w[datetime_ <span class="op">==</span><span class="st"> </span><span class="kw">unique</span>(w<span class="op">$</span>datetime_[<span class="dv">1</span>])]
+wp =<span class="st"> </span><span class="kw">SpatialPoints</span>(<span class="kw">cbind</span>(w1<span class="op">$</span>x, w1<span class="op">$</span>y), <span class="dt">proj4string =</span> <span class="kw">CRS</span>(PROJ))
+datBdry =<span class="st"> </span><span class="kw">gEnvelope</span>(wp)
+
+<span class="co"># load high resolution map of area around Barrow</span>
+map_data =<span class="st"> </span><span class="kw">system.file</span>(<span class="st">'Map'</span>, <span class="st">'BRW_map.RDS'</span>, <span class="dt">package =</span> <span class="st">'windR'</span>)
+BRW =<span class="st"> </span><span class="kw">readRDS</span>(map_data)
+
+<span class="co"># Create simple base map</span>
+b  =<span class="st"> </span>datBdry <span class="op">%&gt;%</span><span class="st"> </span>fortify <span class="op">%&gt;%</span><span class="st"> </span>data.table
+bb =<span class="st"> </span><span class="kw">gBuffer</span>(datBdry, <span class="dt">width =</span> <span class="dv">30000</span>) <span class="op">%&gt;%</span><span class="st"> </span>gEnvelope <span class="op">%&gt;%</span><span class="st"> </span>fortify <span class="op">%&gt;%</span><span class="st"> </span>data.table
+wr =<span class="st"> </span>BRW <span class="op">%&gt;%</span><span class="st"> </span>fortify <span class="op">%&gt;%</span><span class="st"> </span>data.table
+
+bm =
+<span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">coord_equal</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="ot">NULL</span>, <span class="dt">y =</span> <span class="ot">NULL</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_polygon</span>(  <span class="dt">data =</span> bb, <span class="kw">aes</span>(long, lat), <span class="dt">fill =</span> <span class="ot">NA</span>, <span class="dt">colour =</span> <span class="dv">1</span>, <span class="dt">size =</span> <span class="fl">.1</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_polygon</span>(  <span class="dt">data =</span> b,  <span class="kw">aes</span>(long, lat), <span class="dt">fill =</span> <span class="st">'dodgerblue4'</span>, <span class="dt">colour =</span> <span class="dv">1</span>, <span class="dt">size =</span> <span class="fl">.1</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_polygon</span>(  <span class="dt">data =</span> wr, <span class="kw">aes</span>(long, lat, <span class="dt">group =</span> group), <span class="dt">fill   =</span> <span class="st">'steelblue4'</span> , <span class="dt">colour =</span> <span class="st">'white'</span>, <span class="dt">size =</span> <span class="fl">.2</span>) <span class="op">+</span>
+<span class="st">  </span><span class="co"># ggsn::scalebar(data = b,  dist = 100, st.size = 3 ,height = .01) +</span>
+<span class="st">  </span>rangeMapper<span class="op">::</span><span class="kw">theme_rangemap</span>()
+
+<span class="kw">print</span>(bm)</code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
+
+### add tracks coloured with wind support
+<span class="co"># Wind support scale</span>
+col_Ws =<span class="st"> </span><span class="kw">c</span>(<span class="st">'firebrick4'</span>, <span class="st">'firebrick3'</span>, <span class="st">'gold'</span>, <span class="st">'springgreen3'</span>, <span class="st">'springgreen4'</span>, <span class="st">'springgreen4'</span>)
+
+Ws   =<span class="st"> </span>d<span class="op">$</span>Ws <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">na.omit</span>(.)
+Ws_n =<span class="st"> </span>(<span class="op">-</span><span class="dv">6</span> <span class="op">-</span><span class="st"> </span><span class="kw">min</span>(Ws)) <span class="op">/</span><span class="st"> </span>(<span class="kw">max</span>(Ws) <span class="op">-</span><span class="st"> </span><span class="kw">min</span>(Ws))
+Ws_<span class="dv">0</span> =<span class="st"> </span>(<span class="dv">0</span>  <span class="op">-</span><span class="st"> </span><span class="kw">min</span>(Ws)) <span class="op">/</span><span class="st"> </span>(<span class="kw">max</span>(Ws) <span class="op">-</span><span class="st"> </span><span class="kw">min</span>(Ws))
+Ws_p =<span class="st"> </span>(<span class="dv">6</span>  <span class="op">-</span><span class="st"> </span><span class="kw">min</span>(Ws)) <span class="op">/</span><span class="st"> </span>(<span class="kw">max</span>(Ws) <span class="op">-</span><span class="st"> </span><span class="kw">min</span>(Ws))
+Ws_m =<span class="st"> </span>(<span class="kw">max</span>(Ws)  <span class="op">-</span><span class="st"> </span><span class="kw">min</span>(Ws)) <span class="op">/</span><span class="st"> </span>(<span class="kw">max</span>(Ws) <span class="op">-</span><span class="st"> </span><span class="kw">min</span>(Ws))
+
+col_WS_v  =<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>, Ws_n, Ws_<span class="dv">0</span>, Ws_p, Ws_m, <span class="dv">1</span>)
+
+<span class="co"># plots</span>
+gi =
+<span class="st">  </span>bm <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_path</span>(<span class="dt">data =</span> d, <span class="kw">aes</span>(x, y, <span class="dt">group =</span> bird_patch_id , <span class="dt">colour =</span> Ws), <span class="dt">lineend =</span> <span class="st">&quot;round&quot;</span>, <span class="dt">size =</span> <span class="fl">0.7</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_colour_gradientn</span>(<span class="dt">colours =</span> col_Ws, <span class="dt">values =</span> col_WS_v, <span class="dt">limits=</span><span class="kw">c</span>(<span class="kw">min</span>(d<span class="op">$</span>Ws, <span class="dt">na.rm =</span> T), <span class="kw">max</span>(d<span class="op">$</span>Ws, <span class="dt">na.rm =</span> T)), <span class="dt">name =</span> <span class="st">'Wind support (m/s)'</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.direction =</span> <span class="st">'horizontal'</span>, <span class="dt">legend.position =</span> <span class="kw">c</span>(<span class="fl">0.12</span>, <span class="fl">0.13</span>),
+        <span class="dt">legend.title =</span> <span class="kw">element_text</span>(<span class="dt">face =</span> <span class="st">'bold'</span>, <span class="dt">color =</span> <span class="st">'white'</span>),
+        <span class="dt">legend.text =</span> <span class="kw">element_text</span>(<span class="dt">face =</span> <span class="st">'bold'</span>, <span class="dt">color =</span> <span class="st">'white'</span>)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">guides</span>(<span class="dt">colour =</span> <span class="kw">guide_colourbar</span>(<span class="dt">title.position =</span> <span class="st">'top'</span>, <span class="dt">title.hjust =</span> <span class="fl">0.5</span>, <span class="dt">barwidth =</span> <span class="dv">8</span>))
+
+gi</code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
+
+<span class="co"># Function to extract legend (from: https://gist.github.com/crsh/be88be19233f1df4542aca900501f0fb#file-gglegend-r-L7)</span>
+<span class="co"># otherwise plots without tracks would have no legend</span>
+
+gglegend &lt;-<span class="st"> </span><span class="cf">function</span>(x){
+  tmp &lt;-<span class="st"> </span><span class="kw">ggplot_gtable</span>(<span class="kw">ggplot_build</span>(x))
+  leg &lt;-<span class="st"> </span><span class="kw">which</span>(<span class="kw">sapply</span>(tmp<span class="op">$</span>grobs, <span class="cf">function</span>(y) y<span class="op">$</span>name) <span class="op">==</span><span class="st"> &quot;guide-box&quot;</span>)
+  tmp<span class="op">$</span>grobs[[leg]]
+}
+
+
+legend =<span class="st"> </span><span class="kw">gglegend</span>(gi)
+<span class="co"># legend position</span>
+legend<span class="op">$</span>vp<span class="op">$</span>x &lt;-<span class="st"> </span><span class="kw">unit</span>(.<span class="dv">13</span>, <span class="st">'npc'</span>)
+legend<span class="op">$</span>vp<span class="op">$</span>y &lt;-<span class="st"> </span><span class="kw">unit</span>(.<span class="dv">08</span>, <span class="st">'npc'</span>)</code></pre></div>
+</div>
+<div id="create-particle-flow-animation-with-tracks-coloured-with-wind-support" class="section level2">
+<h2>2. Create particle flow animation with tracks coloured with wind support</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
+<span class="co"># Set time frame and path</span>
+ts =<span class="st"> </span><span class="kw">data.table</span>(<span class="dt">date =</span> <span class="kw">seq</span>(<span class="st">'2014-06-05'</span> <span class="op">%&gt;%</span><span class="st"> </span>as.Date <span class="op">%&gt;%</span><span class="st"> </span>as.POSIXct, <span class="st">'2014-06-07'</span> <span class="op">%&gt;%</span><span class="st"> </span>as.Date <span class="op">%&gt;%</span><span class="st"> </span>as.POSIXct, <span class="dt">by =</span> <span class="st">'30 mins'</span>) )
+<span class="kw">setkey</span>(ts, date)
+tmp_path =<span class="st"> </span>wd <span class="co"># change path</span>
+ts[, path <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">paste0</span>(tmp_path, <span class="st">'/'</span>, <span class="kw">str_pad</span>(<span class="dv">1</span><span class="op">:</span>.N, <span class="dv">4</span>, <span class="st">'left'</span>, <span class="dt">pad =</span> <span class="st">'0'</span>), <span class="st">'.png'</span>)   ]
+
+<span class="co"># calculate last datetime of each point (to make it disappear at this point)</span>
+d[, lastDate <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">max</span>(datetime_, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>), by =<span class="st"> </span>bird_patch_id]
+<span class="kw">setkey</span>(d,  datetime_)
+
+
+<span class="co"># register parallel computing</span>
+cl =<span class="st"> </span><span class="dv">20</span> <span class="op">%&gt;%</span><span class="st"> </span>makePSOCKcluster; <span class="kw">registerDoParallel</span>(cl)
+
+
+<span class="co"># loop that creates pictures for the animation</span>
+<span class="kw">foreach</span>(<span class="dt">i =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(ts), <span class="dt">.packages =</span> <span class="kw">c</span>(<span class="st">'scales'</span>, <span class="st">'ggplot2'</span>, <span class="st">'lubridate'</span>, <span class="st">'stringr'</span>, <span class="st">'data.table'</span>, <span class="st">'windR'</span>, <span class="st">'grid'</span>) ) <span class="op">%dopar%</span><span class="st"> </span>{
+
+  <span class="kw">png</span>(<span class="dt">filename =</span> ts[i, path], <span class="dt">width =</span> <span class="dv">700</span>, <span class="dt">height =</span> <span class="dv">700</span>, <span class="dt">units =</span> <span class="st">&quot;px&quot;</span>, <span class="dt">pointsize =</span> <span class="dv">9</span>, <span class="dt">bg =</span> <span class="st">&quot;white&quot;</span>)
+
+  <span class="co"># add track for particles</span>
+  tail     =<span class="st"> </span><span class="dv">20</span>           <span class="co"># lenght of the running tail</span>
+  tmp_date =<span class="st"> </span>ts[i]<span class="op">$</span>date   <span class="co"># current date</span>
+
+  <span class="co"># subset particles</span>
+  tmp_date_sub =<span class="st"> </span><span class="kw">seq</span>(tmp_date  <span class="op">-</span><span class="st"> </span><span class="dv">1800</span> <span class="op">*</span><span class="st"> </span>tail, tmp_date, <span class="dt">by =</span> <span class="st">'30 mins'</span>)
+  pi =<span class="st"> </span>ob[<span class="kw">J</span>(tmp_date_sub), nomatch=0L]
+
+  <span class="co"># add wind particles to base map</span>
+  <span class="cf">if</span> (<span class="kw">nrow</span>(pi) <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>) pi[, a <span class="op">:</span><span class="er">=</span><span class="st">  </span><span class="kw">alphaAlong</span>(datetime_, <span class="dt">head =</span> <span class="dv">70</span>, <span class="dt">skew =</span> <span class="dv">-2</span>), by =<span class="st"> </span>particle_id] <span class="co"># alpha</span>
+
+  bm_w =<span class="st"> </span>bm <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_path</span>(<span class="dt">data =</span> pi, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">group =</span> particle_id, <span class="dt">color =</span> w_speed), <span class="dt">alpha =</span> pi<span class="op">$</span>a) <span class="op">+</span>
+<span class="st">     </span><span class="kw">scale_colour_gradientn</span>(<span class="dt">colours =</span> col_Ws, <span class="dt">values =</span> col_WS_v, 
+                            <span class="dt">limits =</span> <span class="kw">c</span>(<span class="kw">min</span>(d<span class="op">$</span>Ws, <span class="dt">na.rm =</span> T), <span class="kw">max</span>(<span class="kw">c</span>(d<span class="op">$</span>Ws, ob<span class="op">$</span>w_speed), <span class="dt">na.rm =</span> T)), <span class="dt">name =</span> <span class="st">'Wind support (m/s)'</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">annotate</span>(<span class="st">'text'</span>, <span class="dt">x =</span> <span class="dv">0</span>, <span class="dt">y =</span> <span class="dv">-1730000</span>,
+             <span class="dt">label =</span> <span class="kw">paste0</span>(<span class="st">'2014 '</span>, <span class="kw">format</span>(tmp_date, <span class="st">&quot;%B %d %H:00&quot;</span>)),
+             <span class="dt">color =</span> <span class="st">'white'</span>, <span class="dt">size =</span> <span class="dv">8</span>, <span class="dt">fontface =</span> <span class="dv">1</span>) <span class="op">+</span><span class="st"> </span><span class="co"># size = 5 normal resolution, 8 for high</span>
+<span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">'none'</span>,
+          <span class="dt">plot.margin =</span> <span class="kw">unit</span>(<span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">-1</span>, <span class="dv">-1</span>, <span class="dv">-1</span>), <span class="st">'cm'</span>))
+
+  <span class="co"># add bird tracks</span>
+  ki =<span class="st"> </span>d[datetime_ <span class="op">&lt;=</span><span class="st"> </span>tmp_date <span class="op">&amp;</span><span class="st"> </span>tmp_date <span class="op">&lt;</span><span class="st"> </span>lastDate]
+
+  <span class="cf">if</span> (<span class="kw">nrow</span>(ki) <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>) ki[, a<span class="op">:</span><span class="er">=</span><span class="st">  </span><span class="kw">alphaAlong</span>(datetime_, <span class="dt">head =</span> <span class="dv">70</span>, <span class="dt">skew =</span> <span class="fl">-0.1</span>) ,     by =<span class="st"> </span>bird_patch_id] <span class="co"># alpha</span>
+  <span class="cf">if</span> (<span class="kw">nrow</span>(ki) <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>) ki[, s<span class="op">:</span><span class="er">=</span><span class="st">  </span><span class="kw">sizeAlong</span>( datetime_, <span class="dt">head =</span> <span class="dv">70</span>, <span class="dt">to =</span> <span class="kw">c</span>(<span class="fl">0.1</span>,<span class="fl">2.5</span>)) , by =<span class="st"> </span>bird_patch_id] <span class="co"># size</span>
+
+  gi =
+<span class="st">    </span>bm_w <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_path</span>(<span class="dt">data =</span> ki, <span class="kw">aes</span>(x, y, <span class="dt">group =</span> bird_patch_id , <span class="dt">colour =</span> Ws), <span class="dt">lineend =</span> <span class="st">&quot;round&quot;</span>,  <span class="dt">alpha =</span> ki<span class="op">$</span>a, <span class="dt">size =</span> ki<span class="op">$</span>s)
+
+
+  <span class="cf">if</span> (<span class="kw">nrow</span>(ki) <span class="op">==</span><span class="st"> </span><span class="dv">0</span>) {
+    <span class="kw">print</span>(bm_w); <span class="kw">grid.draw</span>(legend)
+  } <span class="cf">else</span> {
+    <span class="kw">print</span>(gi); <span class="kw">grid.draw</span>(legend)
+  }
+
+  <span class="kw">dev.off</span>()
+
+}
+
+
+
+<span class="kw">stopCluster</span>(cl)
+<span class="kw">registerDoSEQ</span>()
+
+
+<span class="co"># merge png into animation using ffmpeg (or with a different programm)</span>
+
+<span class="kw">setwd</span>(tmp_path)
+<span class="kw">system</span>(<span class="st">&quot;ffmpeg -framerate 8 -pattern_type glob -i '*.png' -y -c:v libx264 -profile:v high -crf 1 -pix_fmt yuv420p Wind_particles_bird_tracks_animation.mov&quot;</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()
+<span class="co">#&gt; R version 3.5.2 (2018-12-20)</span>
+<span class="co">#&gt; Platform: x86_64-pc-linux-gnu (64-bit)</span>
+<span class="co">#&gt; Running under: Ubuntu 18.04.2 LTS</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Matrix products: default</span>
+<span class="co">#&gt; BLAS: /usr/lib/x86_64-linux-gnu/blas/libblas.so.3.7.1</span>
+<span class="co">#&gt; LAPACK: /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3.7.1</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; locale:</span>
+<span class="co">#&gt;  [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       </span>
+<span class="co">#&gt;  [4] LC_COLLATE=C           LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   </span>
+<span class="co">#&gt;  [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          </span>
+<span class="co">#&gt; [10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; attached base packages:</span>
+<span class="co">#&gt; [1] grid      parallel  stats     graphics  grDevices utils     datasets </span>
+<span class="co">#&gt; [8] methods   base     </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; other attached packages:</span>
+<span class="co">#&gt;  [1] rgeos_0.3-28      stringr_1.4.0     ggplot2_3.1.0    </span>
+<span class="co">#&gt;  [4] doParallel_1.0.14 iterators_1.0.10  raster_2.8-19    </span>
+<span class="co">#&gt;  [7] sp_1.3-1          foreach_1.4.4     magrittr_1.5     </span>
+<span class="co">#&gt; [10] windR_0.0.9       data.table_1.12.0</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; loaded via a namespace (and not attached):</span>
+<span class="co">#&gt;  [1] pkgload_1.0.2       bit64_0.9-7         assertthat_0.2.0   </span>
+<span class="co">#&gt;  [4] blob_1.1.1          yaml_2.2.0          remotes_2.0.2      </span>
+<span class="co">#&gt;  [7] sessioninfo_1.1.1   pillar_1.3.1        RSQLite_2.1.1      </span>
+<span class="co">#&gt; [10] backports_1.1.3     lattice_0.20-38     glue_1.3.0         </span>
+<span class="co">#&gt; [13] digest_0.6.18       RColorBrewer_1.1-2  colorspace_1.4-0   </span>
+<span class="co">#&gt; [16] htmltools_0.3.6     plyr_1.8.4          pkgconfig_2.0.2    </span>
+<span class="co">#&gt; [19] devtools_2.0.1      purrr_0.3.1         scales_1.0.0       </span>
+<span class="co">#&gt; [22] processx_3.3.0      tibble_2.0.1        usethis_1.4.0      </span>
+<span class="co">#&gt; [25] withr_2.1.2         lazyeval_0.2.1      cli_1.0.1          </span>
+<span class="co">#&gt; [28] crayon_1.3.4        memoise_1.1.0       maptools_0.9-5     </span>
+<span class="co">#&gt; [31] evaluate_0.13       ps_1.3.0            fs_1.2.6           </span>
+<span class="co">#&gt; [34] xml2_1.2.0          foreign_0.8-70      class_7.3-15       </span>
+<span class="co">#&gt; [37] pkgbuild_1.0.2      tools_3.5.2         prettyunits_1.0.2  </span>
+<span class="co">#&gt; [40] munsell_0.5.0       callr_3.1.1         compiler_3.5.2     </span>
+<span class="co">#&gt; [43] e1071_1.7-0.1       rlang_0.3.1         classInt_0.3-1     </span>
+<span class="co">#&gt; [46] rstudioapi_0.9.0    labeling_0.3        rmarkdown_1.11     </span>
+<span class="co">#&gt; [49] rangeMapper_0.3-4   testthat_2.0.1      gtable_0.2.0       </span>
+<span class="co">#&gt; [52] codetools_0.2-16    DBI_1.0.0           roxygen2_6.1.1.9000</span>
+<span class="co">#&gt; [55] R6_2.4.0            gridExtra_2.3       knitr_1.22         </span>
+<span class="co">#&gt; [58] dplyr_0.8.0.1       rgdal_1.4-2         bit_1.1-14         </span>
+<span class="co">#&gt; [61] commonmark_1.7      rprojroot_1.3-2     desc_1.2.0         </span>
+<span class="co">#&gt; [64] stringi_1.3.1       Rcpp_1.0.0          tidyselect_0.2.5   </span>
+<span class="co">#&gt; [67] xfun_0.5</span></code></pre></div>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

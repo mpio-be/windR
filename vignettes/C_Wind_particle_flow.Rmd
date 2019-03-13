@@ -29,7 +29,7 @@ This file describes how to make a particle flow animation using wind data.
 
 ```{r}
 # Packages
-sapply(c('magrittr', 'data.table', 'foreach', 'windR', 'raster', 'foreach', 'doParallel', 'ggplot2', 'stringr'),
+sapply(c('magrittr', 'data.table', 'foreach', 'windR', 'raster', 'foreach', 'doParallel', 'ggplot2', 'stringr', 'rgeos'),
        function(x) suppressPackageStartupMessages(require(x , character.only = TRUE, quietly = TRUE) ) )
 
 # Projection (polar Lambert azimuthal equal-area with longitude origin 156.65° W)
@@ -51,7 +51,7 @@ w = readRDS(wind_data)
 # Get borders of the wind data
 w1 = w[datetime_ == unique(w$datetime_[1])]
 wp = SpatialPoints(cbind(w1$x, w1$y), proj4string = CRS(PROJ))
-datBdry = gEnvelope(wp)
+datBdry = rgeos::gEnvelope(wp)
 
 # load high resolution map of area around Barrow
 map_data = system.file('Map', 'BRW_map.RDS', package = 'windR')
@@ -76,7 +76,6 @@ bm =
   geom_polygon(  data = bb, aes(long, lat), fill = NA, colour = 1, size = .1) +
   geom_polygon(  data = b,  aes(long, lat), fill = 'dodgerblue4', colour = 1, size = .1) +
   geom_polygon(  data = wr, aes(long, lat, group = group), fill   = 'steelblue4' , colour = 'white', size = .2) +
-  ggsn::scalebar(data = b,  dist = 100, st.size = 3 ,height = .01) +
   rangeMapper::theme_rangemap()
 
 print(bm)
