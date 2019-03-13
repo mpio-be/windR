@@ -31,15 +31,15 @@ The **figure** shows an example snapshot of the particle flow animation includin
 
 The [vignettes](http://r-pkgs.had.co.nz/vignettes.html) give a small step by step example of what one has to do to reach the final result (a particle flow animation with animal tracks). The single vignettes are built up on each other, but each can be run independently (since the output data of each step can be loaded from the package data).
 
-The first vignette [A\_ERA\_Interim\_data\_download](insert%20link%20to%20html) describes how to download the ERA-Interim data using a python script. Note that single month can also be downloaded via the [website](http://apps.ecmwf.int/datasets/data/interim-full-daily/levtype=sfc/) directly.
+The first vignette "A\_ERA\_Interim\_data\_download" describes how to download the ERA-Interim data using a python script. Note that single month can also be downloaded via the [website](http://apps.ecmwf.int/datasets/data/interim-full-daily/levtype=sfc/) directly.
 
-The second vignette [B\_Wind\_data\_manipulation](insert%20link%20to%20html) describes how to open the wind data, interpolate them to a higher resolution and transform them in a [data.table](https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html) including the date and u- & v-wind component.
+The second vignette "B\_Wind\_data\_manipulation" describes how to open the wind data, interpolate them to a higher resolution and transform them in a [data.table](https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html) including the date and u- & v-wind component.
 
-The third vignette [C\_Wind\_particle\_flow](insert%20link%20to%20html) describes on how to use wind data to calculate a particle flow (how to create particles) and how to create an animation with them.
+The third vignette "C\_Wind\_particle\_flow" describes on how to use wind data to calculate a particle flow (how to create particles) and how to create an animation with them.
 
-The forth vignette [D\_Wind\_support\_and\_track\_animation](insert%20link%20to%20html) describes how to connect animal tracks (using a subset of data from [Kempenaers & Valcu 2017](https://www.nature.com/articles/nature20813)) with wind data and how to calculate the bearing, ground speed, wind support and cross winds from the tracks. Afterwards, it gives an example of how to plot the tracking data in a simple ggplot and how to do a comet plot animation using tracking data.
+The forth vignette "D\_Wind\_support\_and\_track\_animation" describes how to connect animal tracks (using a subset of data from [Kempenaers & Valcu 2017](https://www.nature.com/articles/nature20813)) with wind data and how to calculate the bearing, ground speed, wind support and cross winds from the tracks. Afterwards, it gives an example of how to plot the tracking data in a simple ggplot and how to do a comet plot animation using tracking data.
 
-The fifth vignette [F\_Wind\_animation\_with\_tracks](insert%20link%20to%20html) brings everything together. It combines the particle flow animation of the wind data with the tracking data.
+The fifth vignette "F\_Wind\_animation\_with\_tracks" brings everything together. It combines the particle flow animation of the wind data with the tracking data.
 
 #### Tips to get started with your own data
 
@@ -55,7 +55,8 @@ install.packages('devtools')
 devtools::install_github('mpio-be/windR')
 
 # install with vignettes
-devtools::install_github("mpio-be/windR", build = TRUE, build_opts = c("--no-resave-data", "--no-manual"))
+devtools::install_github('mpio-be/windR', build_vignettes = TRUE)
+vignette(package = "windR")
 ```
 
 #### Limitations
