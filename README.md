@@ -55,7 +55,7 @@ install.packages('devtools')
 devtools::install_github('mpio-be/windR')
 
 # install with vignettes
-devtools::install_github('mpio-be/windR', build_vignettes = TRUE)
+devtools::install_github("mpio-be/windR", build = TRUE, build_opts = c("--no-resave-data", "--no-manual"))
 vignette(package = "windR")
 ```
 
