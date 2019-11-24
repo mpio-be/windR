@@ -5,30 +5,12 @@ sudo: required
 warnings_are_errors: false
 
 before_install:
-  - sudo apt-get install -y libproj-dev libgeos-dev libnetcdf-dev gdal-bin libgdal-dev  libgeos-dev
+  - sudo apt-get install -y libproj-dev libgeos-dev gdal-bin libgdal-dev libgit2-dev
 
-r_binary_packages:
-  - reticulate
-  - magrittr
-  - data.table
-  - scales
-  - sp
-  - raster
-  - rgeos
-  - ggplot2
-  - knitr
-  - rmarkdown
-  - stringr
-  - doParallel
-  - foreach
-  - testthat
-  - stringr
-  - testthat
-  - rgdal
-  - gdalUtils
-  - covr
-  - ncdf4
-  - roxygen2
+addons:
+  apt:
+    packages:
+      - libudunits2-dev
 
 after_success:
   - Rscript -e 'devtools::install();devtools::test()'
