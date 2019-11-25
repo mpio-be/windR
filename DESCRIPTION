@@ -28,7 +28,8 @@ Suggests:
     stringr,
     roxygen2,
     ggsn,
-    rangeMapper
+    rangeMapper,
+    ncdf4
 License: GPL (>= 3) + file LICENSE
 Encoding: UTF-8
 LazyData: true

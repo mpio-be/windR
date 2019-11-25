@@ -4,7 +4,7 @@ author: "Johannes Krietsch"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{B_Wind_data_manipulation}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -32,7 +32,7 @@ This file describes the process from the downloaded NetCDF file, to a raster bri
 rm(list = ls())
 
 # Packages
-sapply(c('rgdal', 'gdalUtils', 'raster', 'data.table', 'magrittr', 'sp', 'rgeos', 'raster', 'foreach'),
+sapply(c('rgdal', 'gdalUtils', 'raster', 'data.table', 'magrittr', 'sp', 'rgeos', 'raster', 'foreach', 'ncdf4'),
        function(x) suppressPackageStartupMessages(require(x , character.only = TRUE, quietly = TRUE) ) )
 
 # Projections
@@ -188,7 +188,7 @@ w = rbindlist(o)
 w[, datetime_ := datetime_ - 60*60*8]
 
 
-saveRDS(w, paste0(wd, 'ERA_Interrim_850mb_4_7_June_2014_10km.RDS'))
+saveRDS(w, paste0(wd, 'ERA_Interrim_850mb_4_7_June_2014_10km.RDS'), compress='xz')
 
 ```
 

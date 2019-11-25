@@ -4,7 +4,7 @@ author: "Johannes Krietsch"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{C_Wind_particle_flow}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -165,7 +165,7 @@ o = foreach(i = 1:NP, .packages = c('data.table','rgdal', 'raster', 'magrittr', 
 
 ob = rbindlist(o)
 
-saveRDS(ob, paste0(wd, 'Wind_particles.RDS'))
+saveRDS(ob, paste0(wd, 'Wind_particles.RDS'), compress='xz')
 
 ```
 
