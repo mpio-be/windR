@@ -14,13 +14,8 @@ knitr::opts_chunk$set(echo = TRUE)
 [![Open Source Love](https://badges.frapsoft.com/os/v2/open-source.png?v=103)](https://opensource.org/)
 
 
-### Warning!
-
-This package is still in pre-release alpha version. Work in progress. Use at own risk.
-
 ## To do
 
-   * make vignettes travis proof
    * check getWind function (make it testthat proof & faster with raster)
    * check if there is a way to make the particle creation faster
 
@@ -32,7 +27,7 @@ This package is still in pre-release alpha version. Work in progress. Use at own
 `windR` uses wind data from [ERA-Interim]( https://www.ecmwf.int/en/forecasts/datasets/reanalysis-datasets/era-interim) (a global atmospheric reanalysis model) described in detail in [Dee et al. 2011](https://rmets.onlinelibrary.wiley.com/doi/abs/10.1002/qj.828) and connects them wind tracking data (your own). It can be used to create particle flow animations of wind or sea current data. To connect them with tracking data, it is necessary to calculate the bearing (ground direction), ground speed, wind support and cross winds from animal tracks using an equal area map projection (e.g.[Lambert azimuthal equal-area projection]( https://en.wikipedia.org/wiki/Lambert_azimuthal_equal-area_projection)). The wind support represents the length of the wind vector in the direction of the birds’ flight and the cross wind represents the length of the wind vector perpendicular to ground vector (see [Safi et al. 2013](https://movementecologyjournal.biomedcentral.com/articles/10.1186/2051-3933-1-4) for [schematic representation]( http://media.springernature.com/full/springer-static/image/art%3A10.1186%2F2051-3933-1-4/MediaObjects/40462_2013_Article_4_Fig1_HTML.jpg)). For a detailed description see the workflow example described below. 
 
 
-```{r, echo = FALSE, results = 'hide'}
+```{r, echo = FALSE, results = 'hide', warnings = FALSE, message = FALSE, warning = FALSE, include = FALSE}
 
 # Packages
 sapply(c('magrittr', 'data.table', 'windR', 'raster', 'ggplot2', 'stringr', 'grid', 'rgeos'),
@@ -201,7 +196,7 @@ install.packages('devtools')
 devtools::install_github('mpio-be/windR')
 
 # install with vignettes
-devtools::install_github("mpio-be/windR", build = TRUE, build_opts = c("--no-resave-data", "--no-manual"))
+devtools::install_github("mpio-be/windR", build_vignettes = TRUE, force = TRUE)
 vignette(package = "windR")
 
 ```

@@ -4,8 +4,7 @@
 \alias{windSupport}
 \title{Calculate wind support or crosswind}
 \usage{
-windSupport(g_direction, g_speed, w_direction, w_speed,
-  crosswind = FALSE)
+windSupport(g_direction, g_speed, w_direction, w_speed, crosswind = FALSE)
 }
 \arguments{
 \item{g_direction}{The bearing (Can be calculated based on two points using the function bearing)}
