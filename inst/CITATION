@@ -1,17 +1,17 @@
 citHeader("To cite", sQuote("windR"), "in publications, please use:")
 
 citEntry(entry = "article",
-         title = "Wind conditions influence breeding site selection of a polygynous shorebird",
+         title = "Wind conditions influence breeding season movements of a polygynous shorebird",
          author = personList(
            as.person("Johannes Krietsch"),
            as.person("Mihai Valcu"),
            as.person("Bart Kempenaers")
            ),
 
-		     journal = "???",
-		        volume = 1,
-		        number = 1,
-          year = 2018,
+		     journal = "Proc. R. Soc. B",
+		        volume = XXX,
+		        number = XXX,
+            year = 2020,
 
-	 textVersion = "Krietsch, J., et al (in prep). Wind conditions influence breeding site selection of a polygynous shorebird."
+	 textVersion = "Krietsch J, Valcu M, Kempenaers B. 2020 Wind conditions influence breeding season movements in a nomadic polygynous shorebird. Proc. R. Soc. B XXX: 20192789. http://dx.doi.org/10.1098/rspb.2019.2789"
 )
