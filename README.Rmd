@@ -13,15 +13,11 @@ knitr::opts_chunk$set(echo = TRUE)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Open Source Love](https://badges.frapsoft.com/os/v2/open-source.png?v=103)](https://opensource.org/)
 
-
-## To do
-
-   * check getWind function (make it testthat proof & faster with raster)
-   * check if there is a way to make the particle creation faster
-
 ## WindR
 
 `windR` is a R package to connect animal tracking data with wind data (or sea current data) and allows to visualize animal movements within the flow of the medium that they moved in. 
+
+The package was written to compile functions used to analyse pectoral sandpiper movements in the wind. A full animation of these tracks can be found on youtube: [Moving though the Arctic: Pectoral sandpipers in the wind](https://www.youtube.com/watch?v=A-Q5J1wRBUA) 
 
 #### What can you do with `windR`?
 `windR` uses wind data from [ERA-Interim]( https://www.ecmwf.int/en/forecasts/datasets/reanalysis-datasets/era-interim) (a global atmospheric reanalysis model) described in detail in [Dee et al. 2011](https://rmets.onlinelibrary.wiley.com/doi/abs/10.1002/qj.828) and connects them wind tracking data (your own). It can be used to create particle flow animations of wind or sea current data. To connect them with tracking data, it is necessary to calculate the bearing (ground direction), ground speed, wind support and cross winds from animal tracks using an equal area map projection (e.g.[Lambert azimuthal equal-area projection]( https://en.wikipedia.org/wiki/Lambert_azimuthal_equal-area_projection)). The wind support represents the length of the wind vector in the direction of the birds’ flight and the cross wind represents the length of the wind vector perpendicular to ground vector (see [Safi et al. 2013](https://movementecologyjournal.biomedcentral.com/articles/10.1186/2051-3933-1-4) for [schematic representation]( http://media.springernature.com/full/springer-static/image/art%3A10.1186%2F2051-3933-1-4/MediaObjects/40462_2013_Article_4_Fig1_HTML.jpg)). For a detailed description see the workflow example described below. 
@@ -160,7 +156,7 @@ gi =
   geom_path(data = ki, aes(x, y, group = bird_patch_id , colour = Ws), lineend = "round",  alpha = ki$a, size = ki$s)
 
 
-print(gi); grid.draw(legend)
+suppressWarnings(print(gi)); grid.draw(legend)
 
 ```
 

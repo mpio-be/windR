@@ -13,16 +13,16 @@ v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org
 [![Open Source
 Love](https://badges.frapsoft.com/os/v2/open-source.png?v=103)](https://opensource.org/)
 
-## To do
-
-  - check getWind function (make it testthat proof & faster with raster)
-  - check if there is a way to make the particle creation faster
-
 ## WindR
 
 `windR` is a R package to connect animal tracking data with wind data
 (or sea current data) and allows to visualize animal movements within
 the flow of the medium that they moved in.
+
+The package was written to compile functions used to analyse pectoral
+sandpiper movements in the wind. A full animation of these tracks can be
+found on youtube: [Moving though the Arctic: Pectoral sandpipers in the
+wind](https://www.youtube.com/watch?v=A-Q5J1wRBUA)
 
 #### What can you do with `windR`?
 
@@ -43,14 +43,7 @@ of the wind vector perpendicular to ground vector (see [Safi et
 al. 2013](https://movementecologyjournal.biomedcentral.com/articles/10.1186/2051-3933-1-4)
 for [schematic
 representation](http://media.springernature.com/full/springer-static/image/art%3A10.1186%2F2051-3933-1-4/MediaObjects/40462_2013_Article_4_Fig1_HTML.jpg)).
-For a detailed description see the workflow example described
-    below.
-
-    ## Warning in regularize.values(x, y, ties, missing(ties)): collapsing to unique
-    ## 'x' values
-    
-    ## Warning in regularize.values(x, y, ties, missing(ties)): collapsing to unique
-    ## 'x' values
+For a detailed description see the workflow example described below.
 
 ![](man/figures/README-unnamed-chunk-2-1.png)<!-- -->
 
