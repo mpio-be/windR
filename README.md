@@ -45,7 +45,7 @@ for [schematic
 representation](http://media.springernature.com/full/springer-static/image/art%3A10.1186%2F2051-3933-1-4/MediaObjects/40462_2013_Article_4_Fig1_HTML.jpg)).
 For a detailed description see the workflow example described below.
 
-![](doc/figures/README-unnamed-chunk-2-1.png)<!-- -->
+![](inst/figures/README-unnamed-chunk-2-1.png)<!-- -->
 
 The **figure** shows an example snapshot of the particle flow animation
 including two male Pectoral Sandpipers (thick comets in light green)
@@ -62,35 +62,40 @@ The [vignettes](http://r-pkgs.had.co.nz/vignettes.html) give a small
 step by step example of what one has to do to reach the final result (a
 particle flow animation with animal tracks). The single vignettes are
 built up on each other, but each can be run independently (since the
-output data of each step can be loaded from the package data).
+output data of each step can be loaded from the package data). The
+vignettes as html can be found at [OSF](https://osf.io/amd3r/) and
+viewed in a browser after downloading.
 
-The first vignette “A\_ERA\_Interim\_data\_download” describes how to
-download the ERA-Interim data using a python script. Note that single
+The first vignette
+[A\_ERA\_Interim\_data\_download](https://osf.io/4wt8u/) describes how
+to download the ERA-Interim data using a python script. Note that single
 month can also be downloaded via the
 [website](http://apps.ecmwf.int/datasets/data/interim-full-daily/levtype=sfc/)
 directly.
 
-The second vignette “B\_Wind\_data\_manipulation” describes how to open
-the wind data, interpolate them to a higher resolution and transform
-them in a
+The second vignette [B\_Wind\_data\_manipulation](https://osf.io/d8t4p/)
+describes how to open the wind data, interpolate them to a higher
+resolution and transform them in a
 [data.table](https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html)
 including the date and u- & v-wind component.
 
-The third vignette “C\_Wind\_particle\_flow” describes on how to use
-wind data to calculate a particle flow (how to create particles) and how
-to create an animation with them.
+The third vignette [C\_Wind\_particle\_flow](https://osf.io/bu98r/)
+describes on how to use wind data to calculate a particle flow (how to
+create particles) and how to create an animation with them.
 
-The forth vignette “D\_Wind\_support\_and\_track\_animation” describes
-how to connect animal tracks (using a subset of data from [Kempenaers &
-Valcu 2017](https://www.nature.com/articles/nature20813)) with wind data
-and how to calculate the bearing, ground speed, wind support and cross
-winds from the tracks. Afterwards, it gives an example of how to plot
-the tracking data in a simple ggplot and how to do a comet plot
-animation using tracking data.
+The forth vignette
+[D\_Wind\_support\_and\_track\_animation](https://osf.io/5x934/)
+describes how to connect animal tracks (using a subset of data from
+[Kempenaers & Valcu 2017](https://www.nature.com/articles/nature20813))
+with wind data and how to calculate the bearing, ground speed, wind
+support and cross winds from the tracks. Afterwards, it gives an example
+of how to plot the tracking data in a simple ggplot and how to do a
+comet plot animation using tracking data.
 
-The fifth vignette “F\_Wind\_animation\_with\_tracks” brings everything
-together. It combines the particle flow animation of the wind data with
-the tracking data.
+The fifth vignette
+[F\_Wind\_animation\_with\_tracks](https://osf.io/hmkpv/) brings
+everything together. It combines the particle flow animation of the wind
+data with the tracking data.
 
 #### Tips to get started with your own data
 
