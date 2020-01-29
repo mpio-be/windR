@@ -19,7 +19,6 @@ Suggests:
     knitr,
     rmarkdown,
     rgdal,
-    gdalUtils,
     doParallel,
     foreach,
     testthat,
@@ -29,7 +28,8 @@ Suggests:
     roxygen2,
     ggsn,
     rangeMapper,
-    ncdf4
+    ncdf4,
+    gdalUtilities
 License: GPL (>= 3) + file LICENSE
 Encoding: UTF-8
 LazyData: true

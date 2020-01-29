@@ -9,8 +9,6 @@ citEntry(entry = "article",
            ),
 
 		     journal = "Proc. R. Soc. B",
-		        volume = XXX,
-		        number = XXX,
             year = 2020,
 
 	 textVersion = "Krietsch J, Valcu M, Kempenaers B. 2020 Wind conditions influence breeding season movements in a nomadic polygynous shorebird. Proc. R. Soc. B XXX: 20192789. http://dx.doi.org/10.1098/rspb.2019.2789"
