@@ -111,7 +111,7 @@ legend$vp$y <- unit(.08, 'npc')
 ```
 
 
-```{r, echo = FALSE, , fig.width = 8, fig.height = 8, fig.path = "man/figures/README-"}
+```{r, echo = FALSE, , fig.width = 8, fig.height = 8, fig.path = "doc/figures/README-"}
 
 # Set time frame and path
 ts = data.table(date = seq('2014-06-05' %>% as.Date %>% as.POSIXct, '2014-06-07' %>% as.Date %>% as.POSIXct, by = '30 mins') )

@@ -45,7 +45,7 @@ for [schematic
 representation](http://media.springernature.com/full/springer-static/image/art%3A10.1186%2F2051-3933-1-4/MediaObjects/40462_2013_Article_4_Fig1_HTML.jpg)).
 For a detailed description see the workflow example described below.
 
-![](man/figures/README-unnamed-chunk-2-1.png)<!-- -->
+![](doc/figures/README-unnamed-chunk-2-1.png)<!-- -->
 
 The **figure** shows an example snapshot of the particle flow animation
 including two male Pectoral Sandpipers (thick comets in light green)
